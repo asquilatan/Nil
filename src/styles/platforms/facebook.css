@@ -1,0 +1,18 @@
+/* Facebook Focus Mode */
+
+/* Hide News Feed */
+[role="feed"],
+div[data-pagelet="FeedUnit"],
+div[data-pagelet="Stories"] {
+  display: none !important;
+}
+
+/* Hide Right Sidebar (Sponsored/Contacts) */
+div[data-pagelet="RightRail"] {
+  display: none !important;
+}
+
+/* Hide Watch/Video Tab */
+a[href*="/watch"] {
+  display: none !important;
+}

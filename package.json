@@ -1,0 +1,14 @@
+{
+  "name": "social-media-blocker",
+  "version": "1.0.0",
+  "description": "A Chrome Extension to block distracting content on social media.",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
+    "jest": "^27.0.0",
+    "jest-chrome": "^0.8.0",
+    "jest-environment-jsdom": "^27.0.0"
+  }
+}

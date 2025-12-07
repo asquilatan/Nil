@@ -1,0 +1,22 @@
+/* YouTube Focus Mode */
+
+/* Hide Home Feed */
+ytd-browse[page-subtype="home"] #primary {
+  display: none !important;
+}
+
+/* Hide Watch Next Sidebar (Recommendations) */
+#secondary {
+  display: none !important;
+}
+
+/* Hide Shorts Shelves */
+ytd-reel-shelf-renderer {
+  display: none !important;
+}
+
+/* Hide Shorts Tab in Sidebar */
+ytd-guide-entry-renderer a[title="Shorts"],
+ytd-mini-guide-entry-renderer[aria-label="Shorts"] {
+  display: none !important;
+}

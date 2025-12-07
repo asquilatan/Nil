@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Social Media Distraction Blocker",
+  "version": "1.0.0",
+  "description": "Blocks distracting content on social media sites.",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.facebook.com/*",
+    "*://*.instagram.com/*",
+    "*://*.reddit.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "css": ["styles/platforms/youtube.css"],
+      "js": ["content/index.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.facebook.com/*"],
+      "css": ["styles/platforms/facebook.css"],
+      "js": ["content/index.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.instagram.com/*"],
+      "css": ["styles/platforms/instagram.css"],
+      "js": ["content/index.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.reddit.com/*"],
+      "css": ["styles/platforms/reddit.css"],
+      "js": ["content/index.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/**/*.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

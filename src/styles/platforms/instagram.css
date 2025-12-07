@@ -1,0 +1,21 @@
+/* Instagram Focus Mode */
+
+/* Hide Main Feed Posts */
+main[role="main"] article {
+    display: none !important;
+}
+
+/* Hide Stories Bar (Top) */
+main[role="main"] > section > div > div:nth-child(1) {
+    display: none !important;
+}
+
+/* Hide Explore Grid */
+main[role="main"] > div > div > div {
+    display: none !important;
+}
+
+/* Hide Reels Tab */
+a[href="/reels/"] {
+    display: none !important;
+}

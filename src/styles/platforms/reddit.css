@@ -1,0 +1,11 @@
+/* Reddit Focus Mode */
+
+/* Hide Main Feed */
+shreddit-feed {
+    display: none !important;
+}
+
+/* Hide Sidebar */
+right-rail {
+    display: none !important;
+}
