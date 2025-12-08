@@ -1,7 +1,7 @@
 import { Youtube, Facebook, Instagram, MessageCircle, Settings } from 'lucide-preact';
-import Logo from '../assets/logo.svg';
+import Logo from '../assets/nil_dark.png';
 
-export function Sidebar({ active, onSelect }) {
+export function Sidebar({ active, onSelect, statusMap = {} }) {
   const items = [
     { id: 'youtube.com', icon: Youtube, label: 'YouTube' },
     { id: 'facebook.com', icon: Facebook, label: 'Facebook' },
@@ -14,7 +14,6 @@ export function Sidebar({ active, onSelect }) {
       {/* Header / Logo */}
       <div class="logo-area">
         <img src={Logo} alt="Nil Logo" class="logo-img" />
-        <span class="logo-text">NIL</span>
       </div>
 
       {/* Navigation */}
@@ -27,6 +26,7 @@ export function Sidebar({ active, onSelect }) {
           >
             <item.icon size={18} strokeWidth={2} class="nav-icon" />
             <span>{item.label}</span>
+            <div class={`nav-indicator ${statusMap[item.id] ? 'active' : ''}`}></div>
           </button>
         ))}
       </div>

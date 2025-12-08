@@ -12,48 +12,53 @@ export class YouTubeStrategy extends BlockerStrategy {
 
   onSettingsChange(settings) {
     const body = document.body;
-    
-    // Minimal Homepage
-    if (settings.options?.minimalHomepage) {
-      body.classList.add('nil-yt-home-minimal');
-    } else {
-      body.classList.remove('nil-yt-home-minimal');
+
+    // Clear all previous mode classes to prevent conflict
+    body.classList.remove(
+      'nil-yt-home-simplify', 'nil-yt-home-disable',
+      'nil-yt-comments-simplify', 'nil-yt-comments-disable',
+      'nil-yt-sidebar-simplify', 'nil-yt-sidebar-disable',
+      'nil-yt-chat-simplify', 'nil-yt-chat-disable',
+      'nil-yt-navbar-simplify',
+      'nil-yt-disable-playback'
+    );
+
+    // Home Feed
+    if (settings.options?.homeFeedMode === 'simplify') {
+      body.classList.add('nil-yt-home-simplify');
+    } else if (settings.options?.homeFeedMode === 'disable') {
+      body.classList.add('nil-yt-home-disable');
     }
 
-    // Grid Results
-    if (settings.options?.minimalSearchResults) {
-      body.classList.add('nil-yt-grid-results');
-    } else {
-      body.classList.remove('nil-yt-grid-results');
+    // Comments
+    if (settings.options?.commentsMode === 'simplify') {
+      body.classList.add('nil-yt-comments-simplify');
+    } else if (settings.options?.commentsMode === 'disable') {
+      body.classList.add('nil-yt-comments-disable');
     }
 
-    // Thumbnail Mode
-    body.classList.remove('nil-yt-thumb-hidden', 'nil-yt-thumb-small');
-    if (settings.options?.thumbnailMode === 'hidden') {
-      body.classList.add('nil-yt-thumb-hidden');
-    } else if (settings.options?.thumbnailMode === 'small') {
-      body.classList.add('nil-yt-thumb-small');
-    }
-
-    // Audio Only
-    if (settings.options?.audioOnly) {
-      body.classList.add('nil-yt-audio-only');
-    } else {
-      body.classList.remove('nil-yt-audio-only');
-    }
-
-    // Comments (Default true, so check if false)
-    if (settings.options?.comments === false) {
-      body.classList.add('nil-yt-no-comments');
-    } else {
-      body.classList.remove('nil-yt-no-comments');
+    // Sidebar (Recommendations)
+    if (settings.options?.sidebarMode === 'simplify') {
+      body.classList.add('nil-yt-sidebar-simplify');
+    } else if (settings.options?.sidebarMode === 'disable') {
+      body.classList.add('nil-yt-sidebar-disable');
     }
 
     // Live Chat
-    if (settings.options?.hideLiveChat) {
-      body.classList.add('nil-yt-no-chat');
-    } else {
-      body.classList.remove('nil-yt-no-chat');
+    if (settings.options?.chatMode === 'simplify') {
+      body.classList.add('nil-yt-chat-simplify');
+    } else if (settings.options?.chatMode === 'disable') {
+      body.classList.add('nil-yt-chat-disable');
+    }
+
+    // Navbar
+    if (settings.options?.navbarMode === 'simplify') {
+      body.classList.add('nil-yt-navbar-simplify');
+    }
+
+    // Playback
+    if (settings.options?.disablePlayback) {
+      body.classList.add('nil-yt-disable-playback');
     }
   }
 }

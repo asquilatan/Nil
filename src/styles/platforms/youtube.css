@@ -1,61 +1,68 @@
-/* YouTube Focus Mode */
+/* YouTube Focus Mode - Advanced Options */
 
-/* Hide Home Feed */
-body.nil-yt-home-minimal ytd-browse[page-subtype="home"] #primary {
+/* === HOMEPAGE === */
+
+/* Home: DISABLE */
+body.nil-yt-home-disable ytd-browse[page-subtype="home"] #primary {
   display: none !important;
 }
 
-/* Hide Watch Next Sidebar (Recommendations) */
-body.nil-yt-home-minimal #secondary {
-  display: none !important;
-}
-
-/* Hide Shorts Shelves */
-body.nil-yt-home-minimal ytd-reel-shelf-renderer {
-  display: none !important;
-}
-
-/* Hide Shorts Tab in Sidebar */
-body.nil-yt-home-minimal ytd-guide-entry-renderer a[title="Shorts"],
-body.nil-yt-home-minimal ytd-mini-guide-entry-renderer[aria-label="Shorts"] {
-  display: none !important;
-}
-
-/* Center Search Bar (Minimalist Home) */
-body.nil-yt-home-minimal ytd-browse[page-subtype="home"] {
+/* Center Search (Minimalist) when Disabled */
+body.nil-yt-home-disable ytd-browse[page-subtype="home"] {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   height: 100vh !important;
 }
 
-/* Grid Results */
-body.nil-yt-grid-results ytd-search ytd-two-column-search-results-renderer #primary ytd-section-list-renderer #contents {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
-  gap: 16px !important;
-}
-
-body.nil-yt-grid-results ytd-video-renderer {
-  max-width: none !important;
-}
-
-/* Small Thumbnails */
-body.nil-yt-thumb-small ytd-thumbnail {
-  width: 120px !important;
-}
-
-/* Hidden Thumbnails */
-body.nil-yt-thumb-hidden ytd-thumbnail {
+body.nil-yt-home-disable #secondary {
   display: none !important;
 }
 
-/* Audio Only */
-body.nil-yt-audio-only .html5-video-player .video-stream {
+/* Home: SIMPLIFY */
+/* Hide thumbnails */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-thumbnail,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .ytd-thumbnail {
+  display: none !important;
+}
+
+/* Hide PFPs */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #avatar-link,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-img-shadow#avatar {
+  display: none !important;
+}
+
+/* List View (Force Grid to 1 Column - Approximate list view) */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-renderer {
+  --ytd-rich-grid-items-per-row: 1 !important;
+}
+
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #contents>ytd-rich-grid-row {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer {
+  width: 100% !important;
+  margin-bottom: 8px !important;
+}
+
+/* Adjust layout since thumbnails are gone, making text full width */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #details {
+  max-width: 800px !important;
+  /* Limit width for readability */
+}
+
+
+/* === CONTENT (Video Page) === */
+
+/* Playback: DISABLE */
+body.nil-yt-disable-playback .html5-video-player .video-stream {
   opacity: 0 !important;
 }
-body.nil-yt-audio-only .html5-video-player::after {
-  content: 'Audio Only Mode';
+
+body.nil-yt-disable-playback .html5-video-player::after {
+  content: 'Playback Disabled';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -66,21 +73,123 @@ body.nil-yt-audio-only .html5-video-player::after {
   pointer-events: none;
 }
 
-/* No Comments */
-body.nil-yt-no-comments #comments {
+/* Comments: DISABLE */
+body.nil-yt-comments-disable #comments {
   display: none !important;
 }
 
-/* No Chat */
-body.nil-yt-no-chat #chat {
+/* Comments: SIMPLIFY */
+/* Remove Profile Pics */
+body.nil-yt-comments-simplify #comments #author-thumbnail {
   display: none !important;
 }
 
-/* Transitions */
-ytd-browse[page-subtype="home"] #primary,
+/* Remove Like Ratio */
+body.nil-yt-comments-simplify #comments #vote-count-middle {
+  display: none !important;
+}
+
+
+/* === SIDEBAR (Recommendations) === */
+
+/* Sidebar: DISABLE */
+body.nil-yt-sidebar-disable #secondary {
+  display: none !important;
+}
+
+/* Sidebar: SIMPLIFY */
+/* Remove Thumbnails */
+body.nil-yt-sidebar-simplify #secondary ytd-thumbnail {
+  display: none !important;
+}
+
+/* Remove View Count */
+body.nil-yt-sidebar-simplify #secondary #metadata-line span:first-child {
+  /* First span is usually views, second is time. Hiding first logic approximation */
+  display: none !important;
+}
+
+/* Alternative: Hide entire metadata line if strict */
+/* body.nil-yt-sidebar-simplify #secondary #metadata-line { display: none !important; } */
+
+
+/* === LIVE CHAT === */
+
+/* Chat: DISABLE */
+body.nil-yt-chat-disable #chat {
+  display: none !important;
+}
+
+/* Chat: SIMPLIFY */
+/* Remove PFPs */
+body.nil-yt-chat-simplify yt-live-chat-author-chip #img,
+body.nil-yt-chat-simplify yt-live-chat-renderer #author-photo {
+  display: none !important;
+}
+
+
+/* === NAVBAR === */
+
+/* Navbar: SIMPLIFY */
+/* Remove Subscriptions, Explore, More from Youtube */
+/* This TARGETS the specific sections in the guide (drawer) */
+
+/* Hide sections by index or type - Tricky in YT dynamic DOM, but usually sections are ytd-guide-section-renderer */
+/* Assuming standard order: 
+   1. Home/Shorts/Subs (Keep Home, shorts?)
+   2. You (Keep History, Your Videos. Remove others?)
+   3. Subscriptions (Remove)
+   4. Explore (Remove)
+   5. More from YouTube (Remove)
+   6. Settings/Report (Keep)
+*/
+
+/* Hiding Subscriptions Section (Usually has Title "Subscriptions") */
+body.nil-yt-navbar-simplify ytd-guide-section-renderer:has(a[href="/feed/subscriptions"]),
+/* Section containing subs link? No, subs link is in first section usually or separate */
+body.nil-yt-navbar-simplify ytd-guide-section-renderer:has(#guide-section-title[aria-label="Subscriptions"]) {
+  display: none !important;
+}
+
+/* Harder approach: Hide ytd-guide-entry-renderer via hrefs */
+
+/* Remove Subscription List Entries */
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="/channel/"]),
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="/c/"]),
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="@"]) {
+  display: none !important;
+}
+
+/* Remove Explore List */
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/gaming"]),
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/trending"]),
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/music"]),
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/storefront"]) {
+  display: none !important;
+}
+
+/* Keep only: History, Your Videos, Courses, Settings, Report, Help, Feedback */
+/* Hide "Your clips", "Watch later", "Liked videos"?? User said "Remove most of You list. Keep History, Your Videos, Courses" */
+
+/* Strategy: Hide "You" section items that are NOT valid. */
+/* Using :not() is hard because we target container. */
+/* Hide specific "You" items */
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/playlist?list=WL"]),
+/* Watch Later */
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/playlist?list=LL"]),
+/* Liked Videos */
+body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/clips"]) {
+  display: none !important;
+}
+
+/* Hide "More from YouTube" section headers/containers */
+/* Usually section 3, 4 etc. */
+
+
+/* Transition Utils */
+ytd-browse,
 #secondary,
-ytd-reel-shelf-renderer,
-ytd-thumbnail,
-.html5-video-player .video-stream {
-  transition: opacity 0.3s ease, width 0.3s ease;
+#chat,
+#comments {
+  transition: opacity 0.2s ease;
 }

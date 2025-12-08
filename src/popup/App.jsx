@@ -2,6 +2,8 @@ import { useState, useEffect } from 'preact/hooks';
 import { Sidebar } from './components/Sidebar';
 import { Toggle } from './components/Toggle';
 import { Card } from './components/Card';
+import { SegmentedControl } from './components/SegmentedControl';
+import { Home, MessageSquare, Video, MessageCircle, Menu, Tv } from 'lucide-preact';
 
 const DEFAULT_SETTINGS = {
   enabled: true,
@@ -9,12 +11,13 @@ const DEFAULT_SETTINGS = {
     'youtube.com': {
       enabled: true,
       options: {
-        minimalHomepage: true,
-        minimalSearchResults: true,
-        thumbnailMode: 'small', // small, hidden, normal
-        audioOnly: false,
-        comments: true,
-        hideLiveChat: true
+        homeFeedMode: 'normal', // normal, simplify, disable
+        commentsMode: 'normal', // normal, simplify, disable
+        sidebarMode: 'normal', // normal, simplify, disable
+        chatMode: 'normal', // normal, simplify, disable
+        navbarMode: 'normal', // normal, simplify
+        disablePlayback: false,
+        minimalSearchResults: true
       }
     },
     'facebook.com': {
@@ -45,6 +48,7 @@ const DEFAULT_SETTINGS = {
   }
 };
 
+
 export function App() {
   const [settings, setSettings] = useState(null);
   const [activeTab, setActiveTab] = useState('youtube.com');
@@ -52,7 +56,22 @@ export function App() {
   useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage) {
       chrome.storage.local.get('settings', (data) => {
-        setSettings(data.settings || DEFAULT_SETTINGS);
+        // Merge defaults to handle schema migration/updates
+        const loadedFn = data.settings || DEFAULT_SETTINGS;
+        // Simple merge for now - in production might need deeper merge, 
+        // but resetting to default structure for dev is safer if schema changed significantly.
+        // Let's protect against missing new keys by spreading defaults.
+        const merged = { ...DEFAULT_SETTINGS, ...loadedFn, platforms: { ...DEFAULT_SETTINGS.platforms, ...loadedFn.platforms } };
+
+        // Ensure youtube options have new keys if they don't exist
+        if (merged.platforms['youtube.com']) {
+          merged.platforms['youtube.com'].options = {
+            ...DEFAULT_SETTINGS.platforms['youtube.com'].options,
+            ...loadedFn.platforms['youtube.com']?.options
+          };
+        }
+
+        setSettings(merged);
       });
     } else {
       setSettings(DEFAULT_SETTINGS);
@@ -88,26 +107,111 @@ export function App() {
   };
   const platformName = displayNames[activeTab] || activeTab;
 
+  // Create status map for sidebar indicators
+  const statusMap = Object.entries(settings.platforms).reduce((acc, [key, val]) => {
+    acc[key] = val.enabled;
+    return acc;
+  }, {});
+
   const renderOptions = () => {
     if (!platform.enabled) return null;
 
     if (activeTab === 'youtube.com') {
-      return (
-        <>
-          <Card title="Content Feed" className="mb-6">
-            <Toggle label="Hide video recommendations" checked={platform.options?.minimalHomepage} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'minimalHomepage'], v)} />
-            <div class="h-2"></div>
-            <Toggle label="Hide comments section" checked={!platform.options?.comments} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'comments'], !v)} />
-            <div class="h-2"></div>
-            <Toggle label="Hide Live Chat" checked={platform.options?.hideLiveChat} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'hideLiveChat'], v)} />
-          </Card>
+      const modeOptions3 = [
+        { label: 'Normal', value: 'normal' },
+        { label: 'Simplify', value: 'simplify' },
+        { label: 'Disable', value: 'disable' }
+      ];
+      const modeOptions2 = [
+        { label: 'Normal', value: 'normal' },
+        { label: 'Simplify', value: 'simplify' }
+      ];
+      const modeOptionsChat = [
+        { label: 'Normal', value: 'normal' },
+        { label: 'Simplify', value: 'simplify' },
+        { label: 'Disable', value: 'disable' }
+      ];
 
-          <Card title="Interface">
-            <Toggle label="Grid Search Results" checked={platform.options?.minimalSearchResults} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'minimalSearchResults'], v)} />
-            <div class="h-2"></div>
-            <Toggle label="Audio Only Mode" checked={platform.options?.audioOnly} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'audioOnly'], v)} />
-          </Card>
-        </>
+      return (
+        <Card>
+          <div class="option-row">
+            <div class="setting-header">
+              <Home size={16} class="setting-icon" />
+              <span>Home Feed</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.homeFeedMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <MessageSquare size={16} class="setting-icon" />
+              <span>Comments</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.commentsMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <Video size={16} class="setting-icon" />
+              <span>Sidebar Videos</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.sidebarMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <MessageCircle size={16} class="setting-icon" />
+              <span>Live Chat</span>
+            </div>
+            <SegmentedControl
+              options={modeOptionsChat}
+              value={platform.options?.chatMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <Menu size={16} class="setting-icon" />
+              <span>Navigation Bar</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions2}
+              value={platform.options?.navbarMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div class="setting-header" style={{ margin: 0 }}>
+              <Tv size={16} class="setting-icon" />
+              <span>Video Playback</span>
+            </div>
+            <Toggle checked={platform.options?.disablePlayback} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'disablePlayback'], v)} />
+          </div>
+        </Card>
       );
     }
 
@@ -138,7 +242,7 @@ export function App() {
 
         {/* Sidebar */}
         <div class="sidebar-wrapper">
-          <Sidebar active={activeTab} onSelect={setActiveTab} />
+          <Sidebar active={activeTab} onSelect={setActiveTab} statusMap={statusMap} />
         </div>
 
         {/* Main Content */}
@@ -157,7 +261,7 @@ export function App() {
           {/* Scrollable Content */}
           <main class="scrollable-content">
             {/* Main Enable Toggle */}
-            <div class="main-toggle-card">
+            <div class={`main-toggle-card ${platform.enabled ? 'active' : ''}`}>
               <div class="main-toggle-text">
                 <h3>Enable Blocking</h3>
                 <p>Master switch for this platform</p>

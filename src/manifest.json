@@ -78,6 +78,7 @@
     }
   ],
   "action": {
-    "default_popup": "popup/dist/index.html"
+    "default_popup": "popup/dist/index.html",
+    "default_icon": "popup/assets/nil_dark.png"
   }
 }
