@@ -20,6 +20,14 @@ export class BlockerStrategy {
   }
 
   /**
+   * Handle settings changes.
+   * @param {Object} settings - The new settings object for this platform.
+   */
+  onSettingsChange(settings) {
+    // Optional override
+  }
+
+  /**
    * Clean up resources/listeners.
    */
   cleanup() {

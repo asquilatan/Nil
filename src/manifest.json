@@ -5,7 +5,8 @@
   "description": "Blocks distracting content on social media sites.",
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "webNavigation"
   ],
   "host_permissions": [
     "*://*.youtube.com/*",
@@ -18,37 +19,65 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
-      "css": ["styles/platforms/youtube.css"],
-      "js": ["content/index.js"],
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "css": [
+        "styles/platforms/youtube.css"
+      ],
+      "js": [
+        "content/index.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.facebook.com/*"],
-      "css": ["styles/platforms/facebook.css"],
-      "js": ["content/index.js"],
+      "matches": [
+        "*://*.facebook.com/*"
+      ],
+      "css": [
+        "styles/platforms/facebook.css"
+      ],
+      "js": [
+        "content/index.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.instagram.com/*"],
-      "css": ["styles/platforms/instagram.css"],
-      "js": ["content/index.js"],
+      "matches": [
+        "*://*.instagram.com/*"
+      ],
+      "css": [
+        "styles/platforms/instagram.css"
+      ],
+      "js": [
+        "content/index.js"
+      ],
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.reddit.com/*"],
-      "css": ["styles/platforms/reddit.css"],
-      "js": ["content/index.js"],
+      "matches": [
+        "*://*.reddit.com/*"
+      ],
+      "css": [
+        "styles/platforms/reddit.css"
+      ],
+      "js": [
+        "content/index.js"
+      ],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content/**/*.js"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "content/**/*.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "action": {
-    "default_popup": "popup/popup.html"
+    "default_popup": "popup/dist/index.html"
   }
 }

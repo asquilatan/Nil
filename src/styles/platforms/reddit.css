@@ -1,11 +1,15 @@
 /* Reddit Focus Mode */
 
 /* Hide Main Feed */
-shreddit-feed {
+body.nil-reddit-no-feed #AppRouter-main-content ._1OVBBWLtHoSPfGCRaPzpTf,
+/* Old New Reddit Feed */
+body.nil-reddit-no-feed shreddit-feed {
+    /* Newest Reddit Feed */
     display: none !important;
 }
 
-/* Hide Sidebar */
-right-rail {
+/* Hide Comments */
+body.nil-reddit-no-comments shreddit-comment-tree,
+body.nil-reddit-no-comments div[data-test-id="comment-submission-form-markdown"] {
     display: none !important;
 }

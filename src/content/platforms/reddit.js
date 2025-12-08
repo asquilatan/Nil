@@ -8,4 +8,22 @@ export class RedditStrategy extends BlockerStrategy {
   init() {
     console.log('Reddit Focus Mode Active');
   }
+
+  onSettingsChange(settings) {
+    const body = document.body;
+
+    // Block Feed
+    if (settings.options?.blockFeed) {
+      body.classList.add('nil-reddit-no-feed');
+    } else {
+      body.classList.remove('nil-reddit-no-feed');
+    }
+
+    // Block Comments
+    if (settings.options?.blockComments) {
+      body.classList.add('nil-reddit-no-comments');
+    } else {
+      body.classList.remove('nil-reddit-no-comments');
+    }
+  }
 }

@@ -1,22 +1,86 @@
 /* YouTube Focus Mode */
 
 /* Hide Home Feed */
-ytd-browse[page-subtype="home"] #primary {
+body.nil-yt-home-minimal ytd-browse[page-subtype="home"] #primary {
   display: none !important;
 }
 
 /* Hide Watch Next Sidebar (Recommendations) */
-#secondary {
+body.nil-yt-home-minimal #secondary {
   display: none !important;
 }
 
 /* Hide Shorts Shelves */
-ytd-reel-shelf-renderer {
+body.nil-yt-home-minimal ytd-reel-shelf-renderer {
   display: none !important;
 }
 
 /* Hide Shorts Tab in Sidebar */
-ytd-guide-entry-renderer a[title="Shorts"],
-ytd-mini-guide-entry-renderer[aria-label="Shorts"] {
+body.nil-yt-home-minimal ytd-guide-entry-renderer a[title="Shorts"],
+body.nil-yt-home-minimal ytd-mini-guide-entry-renderer[aria-label="Shorts"] {
   display: none !important;
+}
+
+/* Center Search Bar (Minimalist Home) */
+body.nil-yt-home-minimal ytd-browse[page-subtype="home"] {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100vh !important;
+}
+
+/* Grid Results */
+body.nil-yt-grid-results ytd-search ytd-two-column-search-results-renderer #primary ytd-section-list-renderer #contents {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+body.nil-yt-grid-results ytd-video-renderer {
+  max-width: none !important;
+}
+
+/* Small Thumbnails */
+body.nil-yt-thumb-small ytd-thumbnail {
+  width: 120px !important;
+}
+
+/* Hidden Thumbnails */
+body.nil-yt-thumb-hidden ytd-thumbnail {
+  display: none !important;
+}
+
+/* Audio Only */
+body.nil-yt-audio-only .html5-video-player .video-stream {
+  opacity: 0 !important;
+}
+body.nil-yt-audio-only .html5-video-player::after {
+  content: 'Audio Only Mode';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* No Comments */
+body.nil-yt-no-comments #comments {
+  display: none !important;
+}
+
+/* No Chat */
+body.nil-yt-no-chat #chat {
+  display: none !important;
+}
+
+/* Transitions */
+ytd-browse[page-subtype="home"] #primary,
+#secondary,
+ytd-reel-shelf-renderer,
+ytd-thumbnail,
+.html5-video-player .video-stream {
+  transition: opacity 0.3s ease, width 0.3s ease;
 }

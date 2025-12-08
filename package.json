@@ -3,12 +3,19 @@
   "version": "1.0.0",
   "description": "A Chrome Extension to block distracting content on social media.",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build:popup": "vite build && node scripts/fix-popup-html.js"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.5",
+    "@preact/preset-vite": "^2.10.2",
     "jest": "^27.0.0",
     "jest-chrome": "^0.8.0",
-    "jest-environment-jsdom": "^27.0.0"
+    "jest-environment-jsdom": "^27.0.0",
+    "vite": "^7.2.6"
+  },
+  "dependencies": {
+    "lucide-preact": "^0.556.0",
+    "preact": "^10.28.0"
   }
 }

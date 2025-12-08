@@ -1,18 +1,23 @@
 /* Facebook Focus Mode */
 
 /* Hide News Feed */
-[role="feed"],
-div[data-pagelet="FeedUnit"],
-div[data-pagelet="Stories"] {
+body.nil-fb-no-feed [role="feed"],
+body.nil-fb-no-feed div[data-pagelet="FeedUnit"],
+body.nil-fb-no-feed div[data-pagelet="Stories"] {
   display: none !important;
 }
 
 /* Hide Right Sidebar (Sponsored/Contacts) */
-div[data-pagelet="RightRail"] {
+body.nil-fb-no-right-rail div[data-pagelet="RightRail"] {
   display: none !important;
 }
 
 /* Hide Watch/Video Tab */
-a[href*="/watch"] {
+body.nil-fb-no-watch a[href*="/watch"] {
+  display: none !important;
+}
+
+/* Hide Stories specifically if separate from feed */
+body.nil-fb-no-stories div[data-pagelet="Stories"] {
   display: none !important;
 }

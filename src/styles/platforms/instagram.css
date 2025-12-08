@@ -1,21 +1,24 @@
 /* Instagram Focus Mode */
 
 /* Hide Main Feed Posts */
-main[role="main"] article {
+body.nil-ig-no-feed main[role="main"]>section>div>div:nth-child(2),
+/* Typical Feed container */
+body.nil-ig-no-feed article[role="presentation"] {
     display: none !important;
 }
 
 /* Hide Stories Bar (Top) */
-main[role="main"] > section > div > div:nth-child(1) {
+body.nil-ig-no-stories main[role="main"]>section>div>div:nth-child(1),
+body.nil-ig-no-stories div[role="menu"] {
     display: none !important;
 }
 
 /* Hide Explore Grid */
-main[role="main"] > div > div > div {
+body.nil-ig-no-explore main[role="main"]>div>div:first-child {
     display: none !important;
 }
 
 /* Hide Reels Tab */
-a[href="/reels/"] {
+body.nil-ig-no-reels a[href*="/reels/"] {
     display: none !important;
 }

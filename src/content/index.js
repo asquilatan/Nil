@@ -4,6 +4,7 @@
   const { FacebookStrategy } = await import(chrome.runtime.getURL('content/platforms/facebook.js'));
   const { InstagramStrategy } = await import(chrome.runtime.getURL('content/platforms/instagram.js'));
   const { RedditStrategy } = await import(chrome.runtime.getURL('content/platforms/reddit.js'));
+  const { SettingsManager } = await import(chrome.runtime.getURL('content/core/settings-manager.js'));
   
   console.log('Social Media Blocker: Content script loaded');
 
@@ -24,6 +25,8 @@
 
   if (currentStrategy) {
     currentStrategy.init();
+    const settingsManager = new SettingsManager(currentStrategy);
+    settingsManager.init();
   }
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
