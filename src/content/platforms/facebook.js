@@ -6,7 +6,6 @@ export class FacebookStrategy extends BlockerStrategy {
   }
 
   init() {
-    console.log('Facebook Focus Mode Active');
   }
 
   onSettingsChange(settings) {

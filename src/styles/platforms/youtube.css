@@ -1,67 +1,243 @@
 /* YouTube Focus Mode - Advanced Options */
+/* High-specificity selectors based on live DOM inspection */
 
 /* === HOMEPAGE === */
 
 /* Home: DISABLE */
+body.nil-yt-home-disable ytd-browse[page-subtype="home"] #contents,
 body.nil-yt-home-disable ytd-browse[page-subtype="home"] #primary {
   display: none !important;
 }
 
-/* Center Search (Minimalist) when Disabled */
-body.nil-yt-home-disable ytd-browse[page-subtype="home"] {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  height: 100vh !important;
-}
-
-body.nil-yt-home-disable #secondary {
-  display: none !important;
-}
-
 /* Home: SIMPLIFY */
-/* Hide thumbnails */
+
+/* 1. HIDE THUMBNAILS (Old & New UI) */
+/* Old */
 body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-thumbnail,
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .ytd-thumbnail {
-  display: none !important;
-}
-
-/* Hide PFPs */
 body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #avatar-link,
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-img-shadow#avatar {
+/* New (yt-lockup-view-model) - Fixes current issue */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .yt-lockup-view-model__content-image,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] a.yt-lockup-view-model__content-image,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-thumbnail-view-model {
   display: none !important;
 }
 
-/* List View (Force Grid to 1 Column - Approximate list view) */
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-renderer {
-  --ytd-rich-grid-items-per-row: 1 !important;
+/* 2. HIDE AVATARS (Old & New UI) */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #avatar,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #avatar-link,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-img-shadow,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] img.yt-core-image,
+/* New Ad/Video UI */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-avatar-shape,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .yt-avatar-shape,
+/* The avatar container that causes indent difference - FIX */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .yt-lockup-metadata-view-model__avatar {
+  display: none !important;
 }
 
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #contents>ytd-rich-grid-row {
+/* 3. LAYOUT TRANSFORMATION (Simple List View) */
+
+/* Stack items vertically using flex column - NO container padding */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-renderer>#contents,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-row,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-row>#contents {
   display: flex !important;
   flex-direction: column !important;
-}
-
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer {
   width: 100% !important;
-  margin-bottom: 8px !important;
+  padding-left: 0 !important;
 }
 
-/* Adjust layout since thumbnails are gone, making text full width */
-body.nil-yt-home-simplify ytd-browse[page-subtype="home"] #details {
-  max-width: 800px !important;
-  /* Limit width for readability */
+/* Parent Items - Box Model (Padding Only - Border removed to fix duplicate) */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-section-renderer {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 8px 0 !important;
+  padding: 12px 24px !important;
+  /* border-bottom removed by user request (duplicate) */
+  box-sizing: border-box !important;
+}
+
+/* Inner Content Renderers - Full Width ONLY (No Border/Padding to avoid duplicates) */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-radio-renderer,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-playlist-renderer,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-grid-media {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* The lockup view model - make it fill width */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] yt-lockup-view-model {
+  display: flex !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  justify-content: space-between !important;
+  /* Push 3-dots to right if they are flex children */
+}
+
+/* Force metadata to fill width */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] .yt-lockup-view-model__metadata {
+  width: 100% !important;
+  flex: 1 !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Nested content inside Mix/Radio - remove extra padding */
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-radio-renderer #dismissible,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-playlist-renderer #dismissible,
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer #dismissible {
+  display: flex !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer #details {
+  flex: 1 !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+}
+
+/* 4. METADATA TWEAKS (Optional: Hide Views/Date, Keep Channel) */
+/* If generic simplification wants to be like sidebar */
+/* Currently just ensuring clean alignment */
+
+
+/* === VIDEO PAGE: SIDEBAR (SIMPLIFY) === */
+
+/* Target the container that holds the thumbnail image */
+body.nil-yt-sidebar-simplify .yt-lockup-view-model__content-image,
+body.nil-yt-sidebar-simplify a.yt-lockup-view-model__content-image {
+  display: none !important;
+}
+
+/* Fallback for older UI */
+body.nil-yt-sidebar-simplify ytd-compact-video-renderer ytd-thumbnail,
+body.nil-yt-sidebar-simplify ytd-compact-radio-renderer ytd-thumbnail,
+body.nil-yt-sidebar-simplify ytd-compact-playlist-renderer ytd-thumbnail {
+  display: none !important;
+}
+
+/* Keep Views/Date visible - only hide badges */
+/* Removed: rules that hid metadata rows */
+
+/* Hide Badges */
+body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-lockup-metadata-view-model .badge,
+body.nil-yt-sidebar-simplify yt-lockup-view-model .badge-shape-wiz,
+body.nil-yt-sidebar-simplify .badge,
+body.nil-yt-sidebar-simplify ytd-badge-supported-renderer {
+  display: none !important;
+}
+
+/* Fix spacing & Gap */
+body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-lockup-view-model__metadata,
+body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-content-metadata-view-model,
+body.nil-yt-sidebar-simplify ytd-compact-video-renderer .details {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Force container to start from far left - WITH PADDING */
+body.nil-yt-sidebar-simplify yt-lockup-view-model,
+body.nil-yt-sidebar-simplify ytd-compact-video-renderer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding: 8px 0 !important;
+  margin: 0 0 4px 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Ensure inner content takes full width */
+body.nil-yt-sidebar-simplify yt-lockup-view-model>div,
+body.nil-yt-sidebar-simplify ytd-compact-video-renderer>div {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 
-/* === CONTENT (Video Page) === */
+/* === VIDEO PAGE: COMMENTS (SIMPLIFY) === */
 
-/* Playback: DISABLE */
-body.nil-yt-disable-playback .html5-video-player .video-stream {
-  opacity: 0 !important;
+/* Hide Avatars */
+body.nil-yt-comments-simplify ytd-comment-view-model #author-thumbnail,
+body.nil-yt-comments-simplify #comments #author-thumbnail {
+  display: none !important;
 }
 
-body.nil-yt-disable-playback .html5-video-player::after {
+/* Hide Date */
+body.nil-yt-comments-simplify ytd-comment-view-model #published-time-text,
+body.nil-yt-comments-simplify #comments #published-time-text {
+  display: none !important;
+}
+
+/* Hide Actions (Like, Dislike, Reply) */
+body.nil-yt-comments-simplify ytd-comment-view-model ytd-comment-action-buttons-renderer,
+body.nil-yt-comments-simplify #comments ytd-comment-action-buttons-renderer,
+body.nil-yt-comments-simplify #comments #action-buttons {
+  display: none !important;
+}
+
+/* Hide Vote Counts */
+body.nil-yt-comments-simplify #vote-count-middle,
+body.nil-yt-comments-simplify #vote-count-left {
+  display: none !important;
+}
+
+/* Fix spacing after removing avatar - WITH PADDING */
+body.nil-yt-comments-simplify ytd-comment-view-model #body,
+body.nil-yt-comments-simplify #comments #main {
+  margin-left: 0 !important;
+}
+
+/* Add vertical padding between comments */
+body.nil-yt-comments-simplify ytd-comment-thread-renderer {
+  padding: 0 !important;
+  /* border-bottom removed by user request */
+}
+
+/* RESTORED: Reply Indentation Fix */
+body.nil-yt-comments-simplify #replies {
+  padding-left: 20px !important;
+  margin-left: 0 !important;
+}
+
+body.nil-yt-comments-simplify ytd-comment-replies-renderer {
+  margin-left: 0 !important;
+}
+
+body.nil-yt-comments-simplify #replies #author-thumbnail {
+  display: none !important;
+}
+
+
+/* === DISABLE MODES === */
+body.nil-yt-sidebar-disable #secondary,
+body.nil-yt-sidebar-disable #related {
+  display: none !important;
+}
+
+body.nil-yt-comments-disable #comments,
+body.nil-yt-comments-disable ytd-comments {
+  display: none !important;
+}
+
+body.nil-yt-chat-disable #chat,
+body.nil-yt-chat-disable #chat-container,
+body.nil-yt-chat-disable iframe#chatframe,
+body.nil-yt-chat-disable ytd-live-chat-frame {
+  display: none !important;
+}
+
+body.nil-yt-disable-playback video {
+  visibility: hidden !important;
+}
+
+body.nil-yt-disable-playback .html5-video-player::before {
   content: 'Playback Disabled';
   position: absolute;
   top: 50%;
@@ -69,127 +245,185 @@ body.nil-yt-disable-playback .html5-video-player::after {
   transform: translate(-50%, -50%);
   color: white;
   font-size: 24px;
-  z-index: 10;
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 9999;
 }
 
-/* Comments: DISABLE */
-body.nil-yt-comments-disable #comments {
+/* === NAVBAR SIMPLIFY === */
+/* Hide "Subscriptions" - usually the 2nd section (index 1) */
+body.nil-yt-navbar-simplify ytd-guide-section-renderer:nth-of-type(2) {
   display: none !important;
 }
 
-/* Comments: SIMPLIFY */
-/* Remove Profile Pics */
-body.nil-yt-comments-simplify #comments #author-thumbnail {
+/* Hide everything AFTER "You" section (assuming You is 3rd, index 2) */
+/* This hides Explore, More from YouTube, Settings, etc. */
+body.nil-yt-navbar-simplify ytd-guide-section-renderer:nth-of-type(n+4) {
   display: none !important;
 }
 
-/* Remove Like Ratio */
-body.nil-yt-comments-simplify #comments #vote-count-middle {
-  display: none !important;
-}
-
-
-/* === SIDEBAR (Recommendations) === */
-
-/* Sidebar: DISABLE */
-body.nil-yt-sidebar-disable #secondary {
-  display: none !important;
-}
-
-/* Sidebar: SIMPLIFY */
-/* Remove Thumbnails */
-body.nil-yt-sidebar-simplify #secondary ytd-thumbnail {
-  display: none !important;
-}
-
-/* Remove View Count */
-body.nil-yt-sidebar-simplify #secondary #metadata-line span:first-child {
-  /* First span is usually views, second is time. Hiding first logic approximation */
-  display: none !important;
-}
-
-/* Alternative: Hide entire metadata line if strict */
-/* body.nil-yt-sidebar-simplify #secondary #metadata-line { display: none !important; } */
-
-
-/* === LIVE CHAT === */
-
-/* Chat: DISABLE */
-body.nil-yt-chat-disable #chat {
-  display: none !important;
-}
-
-/* Chat: SIMPLIFY */
-/* Remove PFPs */
-body.nil-yt-chat-simplify yt-live-chat-author-chip #img,
-body.nil-yt-chat-simplify yt-live-chat-renderer #author-photo {
+/* Hide footer (Copyright, etc.) */
+body.nil-yt-navbar-simplify #footer {
   display: none !important;
 }
 
 
-/* === NAVBAR === */
+/* === OVERSIMPLIFIED MODE (Google Style) === */
+body.nil-yt-oversimplified {
+  background-color: #0f0f0f !important;
+  /* Ensure dark bg */
+  overflow: hidden !important;
+  /* Prevent scrolling since there's no content */
+}
 
-/* Navbar: SIMPLIFY */
-/* Remove Subscriptions, Explore, More from Youtube */
-/* This TARGETS the specific sections in the guide (drawer) */
-
-/* Hide sections by index or type - Tricky in YT dynamic DOM, but usually sections are ytd-guide-section-renderer */
-/* Assuming standard order: 
-   1. Home/Shorts/Subs (Keep Home, shorts?)
-   2. You (Keep History, Your Videos. Remove others?)
-   3. Subscriptions (Remove)
-   4. Explore (Remove)
-   5. More from YouTube (Remove)
-   6. Settings/Report (Keep)
-*/
-
-/* Hiding Subscriptions Section (Usually has Title "Subscriptions") */
-body.nil-yt-navbar-simplify ytd-guide-section-renderer:has(a[href="/feed/subscriptions"]),
-/* Section containing subs link? No, subs link is in first section usually or separate */
-body.nil-yt-navbar-simplify ytd-guide-section-renderer:has(#guide-section-title[aria-label="Subscriptions"]) {
+/* Hide EVERYTHING on the page except the header */
+body.nil-yt-oversimplified #page-manager,
+body.nil-yt-oversimplified #secondary,
+body.nil-yt-oversimplified #guide,
+body.nil-yt-oversimplified #sidebar,
+body.nil-yt-oversimplified ytd-mini-guide-renderer,
+body.nil-yt-oversimplified #footer,
+body.nil-yt-oversimplified #chips-wrapper {
+  /* Chip bar */
   display: none !important;
 }
 
-/* Harder approach: Hide ytd-guide-entry-renderer via hrefs */
+/* Ensure masthead is visible but transparent/minimal */
+body.nil-yt-oversimplified ytd-masthead {
+  background: transparent !important;
+  border-bottom: none !important;
+}
 
-/* Remove Subscription List Entries */
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="/channel/"]),
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="/c/"]),
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href^="@"]) {
+
+/* Hide start (menu toggle) and end (buttons/avatar) */
+body.nil-yt-oversimplified ytd-masthead #end,
+body.nil-yt-oversimplified ytd-masthead #guide-button {
   display: none !important;
 }
 
-/* Remove Explore List */
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/gaming"]),
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/trending"]),
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/music"]),
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/storefront"]) {
+/* Logo Styling - Center it above search */
+body.nil-yt-oversimplified ytd-masthead #start {
+  position: fixed !important;
+  top: 35vh !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Scale up logo slightly for impact */
+body.nil-yt-oversimplified ytd-masthead #start #logo {
+  transform: scale(1.5) !important;
+  padding: 0 !important;
+}
+
+
+/* Search Bar Styling - Center it below logo */
+body.nil-yt-oversimplified ytd-masthead #center {
+  position: fixed !important;
+  top: 45vh !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 auto !important;
+  max-width: 600px !important;
+  width: 90% !important;
+  flex: none !important;
+}
+
+/* Hide voice search mic to make it cleaner? */
+/* User: "just the search bar". Usually implies text input. Let's hide mic */
+/* Hide voice search mic to make it cleaner? */
+/* User: "just the search bar". Usually implies text input. Let's hide mic */
+body.nil-yt-oversimplified ytd-masthead #voice-search-button {
   display: none !important;
 }
 
-/* Keep only: History, Your Videos, Courses, Settings, Report, Help, Feedback */
-/* Hide "Your clips", "Watch later", "Liked videos"?? User said "Remove most of You list. Keep History, Your Videos, Courses" */
 
-/* Strategy: Hide "You" section items that are NOT valid. */
-/* Using :not() is hard because we target container. */
-/* Hide specific "You" items */
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/playlist?list=WL"]),
-/* Watch Later */
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/playlist?list=LL"]),
-/* Liked Videos */
-body.nil-yt-navbar-simplify ytd-guide-entry-renderer:has(a[href="/feed/clips"]) {
+/* === SEARCH FEED SIMPLIFY === */
+
+/* Hide thumbnails in search results */
+/* Hide thumbnails in search results */
+body.nil-yt-search-simplify ytd-search ytd-thumbnail,
+body.nil-yt-search-simplify ytd-search .ytd-thumbnail,
+body.nil-yt-search-simplify ytd-search #avatar-section,
+body.nil-yt-search-simplify ytd-search yt-img-shadow,
+body.nil-yt-search-simplify ytd-search ytd-playlist-thumbnail,
+body.nil-yt-search-simplify ytd-search .ytd-playlist-thumbnail,
+body.nil-yt-search-simplify ytd-search yt-collection-thumbnail-view-model,
+/* Playlists/Mixes */
+body.nil-yt-search-simplify ytd-search .yt-collection-thumbnail-view-model {
   display: none !important;
 }
 
-/* Hide "More from YouTube" section headers/containers */
-/* Usually section 3, 4 etc. */
+/* Hide "People also watched" and other shelves that clutter search */
+body.nil-yt-search-simplify ytd-search ytd-shelf-renderer {
+  display: none !important;
+}
 
+/* Hide "Shorts" shelf in search */
+body.nil-yt-search-simplify ytd-search ytd-reel-shelf-renderer {
+  display: none !important;
+}
 
-/* Transition Utils */
-ytd-browse,
-#secondary,
-#chat,
-#comments {
-  transition: opacity 0.2s ease;
+/* Align text to left and remove extra padding from thumbnail gap */
+body.nil-yt-search-simplify ytd-search ytd-video-renderer .text-wrapper,
+body.nil-yt-search-simplify ytd-search ytd-playlist-renderer .metadata-snippet-container,
+body.nil-yt-search-simplify ytd-search ytd-channel-renderer #content-section {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Main List Item Styles - Force Full Width & Divider */
+body.nil-yt-search-simplify ytd-search ytd-video-renderer,
+body.nil-yt-search-simplify ytd-search ytd-playlist-renderer,
+body.nil-yt-search-simplify ytd-search ytd-channel-renderer,
+body.nil-yt-search-simplify ytd-search ytd-ad-slot-renderer,
+body.nil-yt-search-simplify ytd-search ytd-promoted-video-renderer,
+body.nil-yt-search-simplify ytd-search yt-lockup-view-model {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 12px !important;
+  padding: 12px 0px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  /* Brighter border for visibility */
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Force inner text containers to start from 0 */
+body.nil-yt-search-simplify ytd-search .text-wrapper,
+body.nil-yt-search-simplify ytd-search .metadata-snippet-container,
+body.nil-yt-search-simplify ytd-search .content-section,
+body.nil-yt-search-simplify ytd-search .yt-lockup-view-model__content,
+body.nil-yt-search-simplify ytd-search .yt-lockup-view-model__metadata,
+body.nil-yt-search-simplify ytd-search .yt-content-metadata-view-model {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  width: 100% !important;
+}
+
+/* Hide Ad Thumbnails & Playlist Thumbnails */
+body.nil-yt-search-simplify ytd-search ytd-ad-slot-renderer ytd-thumbnail,
+body.nil-yt-search-simplify ytd-search ytd-promoted-video-renderer ytd-thumbnail,
+body.nil-yt-search-simplify ytd-search .ytd-ad-slot-renderer img,
+body.nil-yt-search-simplify ytd-search .ytd-promoted-video-renderer img,
+body.nil-yt-search-simplify ytd-search yt-collection-thumbnail-view-model,
+body.nil-yt-search-simplify ytd-search .yt-lockup-view-model__content-image,
+/* The specific element user pointed out */
+body.nil-yt-search-simplify ytd-search a.yt-lockup-view-model__content-image,
+body.nil-yt-search-simplify ytd-search ytd-expandable-metadata-renderer {
+  /* Hide AI Summaries */
+  display: none !important;
+}
+
+/* Align ad text left */
+body.nil-yt-search-simplify ytd-search ytd-ad-slot-renderer,
+body.nil-yt-search-simplify ytd-search ytd-promoted-video-renderer {
+  text-align: left !important;
 }

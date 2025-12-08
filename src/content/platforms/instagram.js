@@ -6,7 +6,6 @@ export class InstagramStrategy extends BlockerStrategy {
   }
 
   init() {
-    console.log('Instagram Focus Mode Active');
   }
 
   onSettingsChange(settings) {

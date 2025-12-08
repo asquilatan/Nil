@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Social Media Distraction Blocker",
+  "name": "Nil: Distraction-free Social Media",
   "version": "1.0.0",
   "description": "Blocks distracting content on social media sites.",
   "permissions": [
@@ -79,6 +79,6 @@
   ],
   "action": {
     "default_popup": "popup/dist/index.html",
-    "default_icon": "popup/assets/nil_dark.png"
+    "default_icon": "popup/assets/nil_logo.png"
   }
 }

@@ -1,24 +1,31 @@
-# Nil
+# Nil: Distraction-free Social Media
 
-A Chrome Extension to block distracting content (feeds, reels, recommendations) on YouTube, Facebook, Instagram, and Reddit.
+Nil is an all-in-one browser extension that simplifies social media UIs by removing addicting elements.
 
-## Features
+## Current Features
 
-- **YouTube**: Blocks Home Feed, Watch Next Sidebar, Shorts.
-- **Facebook**: Blocks News Feed, Stories, Watch Tab.
-- **Instagram**: Blocks Feed, Stories, Explore, Reels.
-- **Reddit**: Blocks Main Feed, Sidebar.
+### YouTube
+-   **Oversimplified Mode**: Minimalist, Google-style homepage (logo + search bar only).
+-   **Search Feed**: Toggle between clean list view (text-only) or standard grid.
+-   **Content Blocking**: Simplify or disable Home Feed, Sidebar, Comments, and Navbar.
+-   **Smart Scoping**: Sidebar and Chat rules apply only to the Watch page.
+
+## Planned Features
+
+Targeting doom-scrolling on other platforms:
+-   **Facebook**: Block News Feed, Stories, Watch Tab.
+-   **Instagram**: Block Explore, Reels, Stories.
+-   **Reddit**: Block Main Feed and Sidebars.
+-   **Twitter/X**: Block "For You" timeline.
+-   **TikTok**: Block "For You Page". 
 
 ## Installation
 
-1. Clone this repository.
-2. Install dependencies: `npm install`
-3. Build the Popup UI: `npm run build:popup`
-4. Open Chrome and go to `chrome://extensions`.
-5. Enable "Developer mode".
-6. Click "Load unpacked" and select the `src` folder.
+1.  Clone repo & `npm install`
+2.  `npm run build:popup`
+3.  Load unpacked `src` folder in `chrome://extensions` (Developer Mode).
 
 ## Development
 
-- Run tests: `npm test`
-- Rebuild popup after changes: `npm run build:popup`
+-   `npm test`
+-   `npm run build:popup`

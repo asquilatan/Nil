@@ -1,6 +1,5 @@
 // Service Worker
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Social Media Distraction Blocker installed.');
 });
 
 chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {

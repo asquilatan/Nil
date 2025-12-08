@@ -6,7 +6,6 @@ export class RedditStrategy extends BlockerStrategy {
   }
 
   init() {
-    console.log('Reddit Focus Mode Active');
   }
 
   onSettingsChange(settings) {

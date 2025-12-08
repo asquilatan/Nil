@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { Toggle } from './components/Toggle';
 import { Card } from './components/Card';
 import { SegmentedControl } from './components/SegmentedControl';
-import { Home, MessageSquare, Video, MessageCircle, Menu, Tv } from 'lucide-preact';
+import { Home, MessageSquare, Video, MessageCircle, Menu, Tv, Search } from 'lucide-preact';
 
 const DEFAULT_SETTINGS = {
   enabled: true,
@@ -11,13 +11,15 @@ const DEFAULT_SETTINGS = {
     'youtube.com': {
       enabled: true,
       options: {
-        homeFeedMode: 'normal', // normal, simplify, disable
-        commentsMode: 'normal', // normal, simplify, disable
-        sidebarMode: 'normal', // normal, simplify, disable
-        chatMode: 'normal', // normal, simplify, disable
-        navbarMode: 'normal', // normal, simplify
+        homeFeedMode: 'simplify',
+        commentsMode: 'simplify',
+        sidebarMode: 'simplify',
+        chatMode: 'simplify',
+        navbarMode: 'simplify',
+        searchFeedMode: 'simplify',
         disablePlayback: false,
-        minimalSearchResults: true
+        oversimplifiedMode: false,
+        minimalSearchResults: true // Keeping for backward compat, though handled by searchFeedMode now
       }
     },
     'facebook.com': {
@@ -139,10 +141,31 @@ export function App() {
               <Home size={16} class="setting-icon" />
               <span>Home Feed</span>
             </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+              <SegmentedControl
+                options={modeOptions3}
+                value={platform.options?.homeFeedMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
+              />
+              <Toggle
+                label="Oversimplified (Google Style)"
+                checked={platform.options?.oversimplifiedMode || false}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'oversimplifiedMode'], v)}
+              />
+            </div>
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <Search size={16} class="setting-icon" />
+              <span>Search Feed</span>
+            </div>
             <SegmentedControl
-              options={modeOptions3}
-              value={platform.options?.homeFeedMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
+              options={modeOptions2}
+              value={platform.options?.searchFeedMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'searchFeedMode'], v)}
             />
           </div>
 
@@ -165,26 +188,12 @@ export function App() {
           <div class="option-row">
             <div class="setting-header">
               <Video size={16} class="setting-icon" />
-              <span>Sidebar Videos</span>
+              <span>Sidebar Content</span>
             </div>
             <SegmentedControl
               options={modeOptions3}
               value={platform.options?.sidebarMode || 'normal'}
               onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
-            />
-          </div>
-
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
-              <MessageCircle size={16} class="setting-icon" />
-              <span>Live Chat</span>
-            </div>
-            <SegmentedControl
-              options={modeOptionsChat}
-              value={platform.options?.chatMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v)}
             />
           </div>
 

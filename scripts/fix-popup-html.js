@@ -26,7 +26,6 @@ if (fs.existsSync(htmlPath)) {
     }
 
     fs.writeFileSync(htmlPath, html, 'utf8');
-    console.log('✓ Fixed popup HTML for Chrome extension');
 } else {
     console.error('❌ dist/index.html not found!');
     process.exit(1);
