@@ -110,15 +110,15 @@ body.nil-yt-home-simplify ytd-browse[page-subtype="home"] ytd-rich-item-renderer
 /* === VIDEO PAGE: SIDEBAR (SIMPLIFY) === */
 
 /* Target the container that holds the thumbnail image */
-body.nil-yt-sidebar-simplify .yt-lockup-view-model__content-image,
-body.nil-yt-sidebar-simplify a.yt-lockup-view-model__content-image {
+body.nil-yt-sidebar-simplify ytd-watch-flexy .yt-lockup-view-model__content-image,
+body.nil-yt-sidebar-simplify ytd-watch-flexy a.yt-lockup-view-model__content-image {
   display: none !important;
 }
 
 /* Fallback for older UI */
-body.nil-yt-sidebar-simplify ytd-compact-video-renderer ytd-thumbnail,
-body.nil-yt-sidebar-simplify ytd-compact-radio-renderer ytd-thumbnail,
-body.nil-yt-sidebar-simplify ytd-compact-playlist-renderer ytd-thumbnail {
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-video-renderer ytd-thumbnail,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-radio-renderer ytd-thumbnail,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-playlist-renderer ytd-thumbnail {
   display: none !important;
 }
 
@@ -126,24 +126,24 @@ body.nil-yt-sidebar-simplify ytd-compact-playlist-renderer ytd-thumbnail {
 /* Removed: rules that hid metadata rows */
 
 /* Hide Badges */
-body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-lockup-metadata-view-model .badge,
-body.nil-yt-sidebar-simplify yt-lockup-view-model .badge-shape-wiz,
-body.nil-yt-sidebar-simplify .badge,
-body.nil-yt-sidebar-simplify ytd-badge-supported-renderer {
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model .yt-lockup-metadata-view-model .badge,
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model .badge-shape-wiz,
+body.nil-yt-sidebar-simplify ytd-watch-flexy .badge,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-badge-supported-renderer {
   display: none !important;
 }
 
 /* Fix spacing & Gap */
-body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-lockup-view-model__metadata,
-body.nil-yt-sidebar-simplify yt-lockup-view-model .yt-content-metadata-view-model,
-body.nil-yt-sidebar-simplify ytd-compact-video-renderer .details {
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model .yt-lockup-view-model__metadata,
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model .yt-content-metadata-view-model,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-video-renderer .details {
   margin-left: 0 !important;
   padding-left: 0 !important;
 }
 
 /* Force container to start from far left - WITH PADDING */
-body.nil-yt-sidebar-simplify yt-lockup-view-model,
-body.nil-yt-sidebar-simplify ytd-compact-video-renderer {
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-video-renderer {
   display: flex !important;
   flex-direction: column !important;
   align-items: flex-start !important;
@@ -153,8 +153,8 @@ body.nil-yt-sidebar-simplify ytd-compact-video-renderer {
 }
 
 /* Ensure inner content takes full width */
-body.nil-yt-sidebar-simplify yt-lockup-view-model>div,
-body.nil-yt-sidebar-simplify ytd-compact-video-renderer>div {
+body.nil-yt-sidebar-simplify ytd-watch-flexy yt-lockup-view-model>div,
+body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-video-renderer>div {
   width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -164,72 +164,72 @@ body.nil-yt-sidebar-simplify ytd-compact-video-renderer>div {
 /* === VIDEO PAGE: COMMENTS (SIMPLIFY) === */
 
 /* Hide Avatars */
-body.nil-yt-comments-simplify ytd-comment-view-model #author-thumbnail,
-body.nil-yt-comments-simplify #comments #author-thumbnail {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-view-model #author-thumbnail,
+body.nil-yt-comments-simplify ytd-watch-flexy #comments #author-thumbnail {
   display: none !important;
 }
 
 /* Hide Date */
-body.nil-yt-comments-simplify ytd-comment-view-model #published-time-text,
-body.nil-yt-comments-simplify #comments #published-time-text {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-view-model #published-time-text,
+body.nil-yt-comments-simplify ytd-watch-flexy #comments #published-time-text {
   display: none !important;
 }
 
 /* Hide Actions (Like, Dislike, Reply) */
-body.nil-yt-comments-simplify ytd-comment-view-model ytd-comment-action-buttons-renderer,
-body.nil-yt-comments-simplify #comments ytd-comment-action-buttons-renderer,
-body.nil-yt-comments-simplify #comments #action-buttons {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-view-model ytd-comment-action-buttons-renderer,
+body.nil-yt-comments-simplify ytd-watch-flexy #comments ytd-comment-action-buttons-renderer,
+body.nil-yt-comments-simplify ytd-watch-flexy #comments #action-buttons {
   display: none !important;
 }
 
 /* Hide Vote Counts */
-body.nil-yt-comments-simplify #vote-count-middle,
-body.nil-yt-comments-simplify #vote-count-left {
+body.nil-yt-comments-simplify ytd-watch-flexy #vote-count-middle,
+body.nil-yt-comments-simplify ytd-watch-flexy #vote-count-left {
   display: none !important;
 }
 
 /* Fix spacing after removing avatar - WITH PADDING */
-body.nil-yt-comments-simplify ytd-comment-view-model #body,
-body.nil-yt-comments-simplify #comments #main {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-view-model #body,
+body.nil-yt-comments-simplify ytd-watch-flexy #comments #main {
   margin-left: 0 !important;
 }
 
 /* Add vertical padding between comments */
-body.nil-yt-comments-simplify ytd-comment-thread-renderer {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-thread-renderer {
   padding: 0 !important;
   /* border-bottom removed by user request */
 }
 
 /* RESTORED: Reply Indentation Fix */
-body.nil-yt-comments-simplify #replies {
+body.nil-yt-comments-simplify ytd-watch-flexy #replies {
   padding-left: 20px !important;
   margin-left: 0 !important;
 }
 
-body.nil-yt-comments-simplify ytd-comment-replies-renderer {
+body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-replies-renderer {
   margin-left: 0 !important;
 }
 
-body.nil-yt-comments-simplify #replies #author-thumbnail {
+body.nil-yt-comments-simplify ytd-watch-flexy #replies #author-thumbnail {
   display: none !important;
 }
 
 
 /* === DISABLE MODES === */
-body.nil-yt-sidebar-disable #secondary,
-body.nil-yt-sidebar-disable #related {
+body.nil-yt-sidebar-disable ytd-watch-flexy #secondary,
+body.nil-yt-sidebar-disable ytd-watch-flexy #related {
   display: none !important;
 }
 
-body.nil-yt-comments-disable #comments,
-body.nil-yt-comments-disable ytd-comments {
+body.nil-yt-comments-disable ytd-watch-flexy #comments,
+body.nil-yt-comments-disable ytd-watch-flexy ytd-comments {
   display: none !important;
 }
 
-body.nil-yt-chat-disable #chat,
-body.nil-yt-chat-disable #chat-container,
-body.nil-yt-chat-disable iframe#chatframe,
-body.nil-yt-chat-disable ytd-live-chat-frame {
+body.nil-yt-chat-disable ytd-watch-flexy #chat,
+body.nil-yt-chat-disable ytd-watch-flexy #chat-container,
+body.nil-yt-chat-disable ytd-watch-flexy iframe#chatframe,
+body.nil-yt-chat-disable ytd-watch-flexy ytd-live-chat-frame {
   display: none !important;
 }
 
@@ -270,40 +270,43 @@ body.nil-yt-navbar-simplify #footer {
 
 
 /* === OVERSIMPLIFIED MODE (Google Style) === */
-body.nil-yt-oversimplified {
+
+/* Only apply Oversimplified Mode when we are actually ON the Home Page */
+/* Use :has() to detect if the Home Page component exists */
+
+/* Dark Background & Overflow - Only when Home is present */
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) {
   background-color: #0f0f0f !important;
-  /* Ensure dark bg */
   overflow: hidden !important;
-  /* Prevent scrolling since there's no content */
 }
 
-/* Hide EVERYTHING on the page except the header */
-body.nil-yt-oversimplified #page-manager,
-body.nil-yt-oversimplified #secondary,
-body.nil-yt-oversimplified #guide,
-body.nil-yt-oversimplified #sidebar,
-body.nil-yt-oversimplified ytd-mini-guide-renderer,
-body.nil-yt-oversimplified #footer,
-body.nil-yt-oversimplified #chips-wrapper {
-  /* Chip bar */
+/* Hide Page Manager Content - SPECIFICALLY Home Browse */
+body.nil-yt-oversimplified ytd-browse[page-subtype="home"] {
   display: none !important;
 }
 
-/* Ensure masthead is visible but transparent/minimal */
-body.nil-yt-oversimplified ytd-masthead {
+/* Hide Global Elements - ONLY when Home is present */
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #secondary,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #guide,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #sidebar,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-mini-guide-renderer,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #footer,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #chips-wrapper {
+  display: none !important;
+}
+
+/* Masthead Styling - ONLY when Home is present */
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead {
   background: transparent !important;
   border-bottom: none !important;
 }
 
-
-/* Hide start (menu toggle) and end (buttons/avatar) */
-body.nil-yt-oversimplified ytd-masthead #end,
-body.nil-yt-oversimplified ytd-masthead #guide-button {
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #end,
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #guide-button {
   display: none !important;
 }
 
-/* Logo Styling - Center it above search */
-body.nil-yt-oversimplified ytd-masthead #start {
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #start {
   position: fixed !important;
   top: 35vh !important;
   left: 50% !important;
@@ -315,15 +318,12 @@ body.nil-yt-oversimplified ytd-masthead #start {
   opacity: 1 !important;
 }
 
-/* Scale up logo slightly for impact */
-body.nil-yt-oversimplified ytd-masthead #start #logo {
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #start #logo {
   transform: scale(1.5) !important;
   padding: 0 !important;
 }
 
-
-/* Search Bar Styling - Center it below logo */
-body.nil-yt-oversimplified ytd-masthead #center {
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #center {
   position: fixed !important;
   top: 45vh !important;
   left: 50% !important;
@@ -334,11 +334,7 @@ body.nil-yt-oversimplified ytd-masthead #center {
   flex: none !important;
 }
 
-/* Hide voice search mic to make it cleaner? */
-/* User: "just the search bar". Usually implies text input. Let's hide mic */
-/* Hide voice search mic to make it cleaner? */
-/* User: "just the search bar". Usually implies text input. Let's hide mic */
-body.nil-yt-oversimplified ytd-masthead #voice-search-button {
+body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #voice-search-button {
   display: none !important;
 }
 
