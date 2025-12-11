@@ -1,6 +1,7 @@
 {
   "name": "nil",
   "version": "1.0.0",
+  "license": "GPL-3.0",
   "description": "A Chrome Extension to block distracting content on social media.",
   "scripts": {
     "test": "jest",

@@ -43,8 +43,11 @@ const DEFAULT_SETTINGS = {
     'reddit.com': {
       enabled: true,
       options: {
-        blockFeed: true,
-        blockComments: false
+        feedMode: 'simplify',
+        sidebarMode: 'simplify',
+        navbarMode: 'simplify',
+        chatMode: 'simplify',
+        commentsMode: 'simplify'
       }
     }
   }
@@ -118,7 +121,9 @@ export function App() {
   const renderOptions = () => {
     if (!platform.enabled) return null;
 
-    if (activeTab === 'youtube.com') {
+    if (activeTab === 'youtube.com' || activeTab === 'reddit.com') {
+      const isReddit = activeTab === 'reddit.com';
+
       const modeOptions3 = [
         { label: 'Normal', value: 'normal' },
         { label: 'Simplify', value: 'simplify' },
@@ -128,44 +133,153 @@ export function App() {
         { label: 'Normal', value: 'normal' },
         { label: 'Simplify', value: 'simplify' }
       ];
-      const modeOptionsChat = [
-        { label: 'Normal', value: 'normal' },
-        { label: 'Simplify', value: 'simplify' },
-        { label: 'Disable', value: 'disable' }
-      ];
 
+      // Youtube specific options
+      if (!isReddit) {
+        return (
+          <Card>
+            <div class="option-row">
+              <div class="setting-header">
+                <Home size={16} class="setting-icon" />
+                <span>Home Feed</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+                <SegmentedControl
+                  options={modeOptions3}
+                  value={platform.options?.homeFeedMode || 'normal'}
+                  onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
+                />
+                <Toggle
+                  label="Oversimplified (Google Style)"
+                  checked={platform.options?.oversimplifiedMode || false}
+                  onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'oversimplifiedMode'], v)}
+                />
+              </div>
+            </div>
+
+            <div class="h-2"></div>
+
+            <div class="option-row">
+              <div class="setting-header">
+                <Search size={16} class="setting-icon" />
+                <span>Search Feed</span>
+              </div>
+              <SegmentedControl
+                options={modeOptions2}
+                value={platform.options?.searchFeedMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'searchFeedMode'], v)}
+              />
+            </div>
+
+            <div class="h-2"></div>
+
+            <div class="option-row">
+              <div class="setting-header">
+                <MessageSquare size={16} class="setting-icon" />
+                <span>Comments</span>
+              </div>
+              <SegmentedControl
+                options={modeOptions3}
+                value={platform.options?.commentsMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], v)}
+              />
+            </div>
+
+            <div class="h-2"></div>
+
+            <div class="option-row">
+              <div class="setting-header">
+                <Video size={16} class="setting-icon" />
+                <span>Sidebar Content</span>
+              </div>
+              <SegmentedControl
+                options={modeOptions3}
+                value={platform.options?.sidebarMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
+              />
+            </div>
+
+            <div class="h-2"></div>
+
+            <div class="option-row">
+              <div class="setting-header">
+                <Menu size={16} class="setting-icon" />
+                <span>Navigation Bar</span>
+              </div>
+              <SegmentedControl
+                options={modeOptions2}
+                value={platform.options?.navbarMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
+              />
+            </div>
+
+            <div class="h-2"></div>
+
+            <div class="option-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div class="setting-header" style={{ margin: 0 }}>
+                <Tv size={16} class="setting-icon" />
+                <span>Video Playback</span>
+              </div>
+              <Toggle checked={platform.options?.disablePlayback} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'disablePlayback'], v)} />
+            </div>
+          </Card>
+        );
+      }
+
+      // Reddit specific options
       return (
         <Card>
           <div class="option-row">
             <div class="setting-header">
               <Home size={16} class="setting-icon" />
-              <span>Home Feed</span>
+              <span>Main Feed</span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
-              <SegmentedControl
-                options={modeOptions3}
-                value={platform.options?.homeFeedMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
-              />
-              <Toggle
-                label="Oversimplified (Google Style)"
-                checked={platform.options?.oversimplifiedMode || false}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'oversimplifiedMode'], v)}
-              />
-            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.feedMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'feedMode'], v)}
+            />
           </div>
 
           <div class="h-2"></div>
 
           <div class="option-row">
             <div class="setting-header">
-              <Search size={16} class="setting-icon" />
-              <span>Search Feed</span>
+              <Video size={16} class="setting-icon" />
+              <span>Sidebar</span>
             </div>
             <SegmentedControl
-              options={modeOptions2}
-              value={platform.options?.searchFeedMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'searchFeedMode'], v)}
+              options={modeOptions3}
+              value={platform.options?.sidebarMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <Menu size={16} class="setting-icon" />
+              <span>Top Navbar</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.navbarMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
+            />
+          </div>
+
+          <div class="h-2"></div>
+
+          <div class="option-row">
+            <div class="setting-header">
+              <MessageCircle size={16} class="setting-icon" />
+              <span>Messages</span>
+            </div>
+            <SegmentedControl
+              options={modeOptions3}
+              value={platform.options?.chatMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v)}
             />
           </div>
 
@@ -181,44 +295,6 @@ export function App() {
               value={platform.options?.commentsMode || 'normal'}
               onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], v)}
             />
-          </div>
-
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
-              <Video size={16} class="setting-icon" />
-              <span>Sidebar Content</span>
-            </div>
-            <SegmentedControl
-              options={modeOptions3}
-              value={platform.options?.sidebarMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
-            />
-          </div>
-
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
-              <Menu size={16} class="setting-icon" />
-              <span>Navigation Bar</span>
-            </div>
-            <SegmentedControl
-              options={modeOptions2}
-              value={platform.options?.navbarMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
-            />
-          </div>
-
-          <div class="h-2"></div>
-
-          <div class="option-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div class="setting-header" style={{ margin: 0 }}>
-              <Tv size={16} class="setting-icon" />
-              <span>Video Playback</span>
-            </div>
-            <Toggle checked={platform.options?.disablePlayback} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'disablePlayback'], v)} />
           </div>
         </Card>
       );

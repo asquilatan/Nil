@@ -1,15 +1,133 @@
-/* Reddit Focus Mode */
+/* Reddit Focus Mode - Updated Selectors for 2024 Reddit */
 
-/* Hide Main Feed */
-body.nil-reddit-no-feed #AppRouter-main-content ._1OVBBWLtHoSPfGCRaPzpTf,
-/* Old New Reddit Feed */
-body.nil-reddit-no-feed shreddit-feed {
-    /* Newest Reddit Feed */
+/* --- Main Feed --- */
+
+/* Disable Feed - SCOPED TO FEED ONLY */
+body.nil-reddit-feed-disable shreddit-feed,
+body.nil-reddit-feed-disable shreddit-gallery-carousel,
+body.nil-reddit-feed-disable community-highlight-card {
     display: none !important;
 }
 
-/* Hide Comments */
-body.nil-reddit-no-comments shreddit-comment-tree,
-body.nil-reddit-no-comments div[data-test-id="comment-submission-form-markdown"] {
+/* Simplify Feed - Hide images, videos, and profile pictures */
+/* SCOPED TO FEED ONLY - does not affect individual post pages */
+
+/* Hide post images and videos (the aspect-ratio container) */
+body.nil-reddit-feed-simplify shreddit-feed shreddit-aspect-ratio {
+    display: none !important;
+}
+
+/* Hide gallery carousels (image sliders) */
+body.nil-reddit-feed-simplify shreddit-feed gallery-carousel,
+body.nil-reddit-feed-simplify shreddit-feed shreddit-async-loader[bundlename="gallery_carousel"],
+body.nil-reddit-feed-simplify shreddit-feed div[slot="post-media-container"] {
+    display: none !important;
+}
+
+/* Hide spoiler blurred containers */
+body.nil-reddit-feed-simplify shreddit-feed shreddit-blurred-container {
+    display: none !important;
+}
+
+/* Hide media link thumbnails */
+body.nil-reddit-feed-simplify shreddit-feed div[data-testid="post-thumbnail"],
+body.nil-reddit-feed-simplify shreddit-feed div[slot="thumbnail"] {
+    display: none !important;
+}
+
+/* Hide subreddit/user profile pictures in feed */
+body.nil-reddit-feed-simplify shreddit-feed span[avatar],
+body.nil-reddit-feed-simplify shreddit-feed .shreddit-subreddit-icon__icon,
+body.nil-reddit-feed-simplify shreddit-feed faceplate-img[src*="styles.redditmedia.com"] {
+    display: none !important;
+}
+
+/* Hide promoted/ad posts */
+body.nil-reddit-feed-simplify shreddit-feed shreddit-ad-post,
+body.nil-reddit-feed-simplify shreddit-feed [data-testid="promoted"],
+body.nil-reddit-feed-simplify shreddit-feed .promotedlink,
+body.nil-reddit-feed-simplify shreddit-feed faceplate-tracker[data-faceplate-tracking-context*="promoted"] {
+    display: none !important;
+}
+
+/* Hide community highlights carousel */
+body.nil-reddit-feed-simplify shreddit-gallery-carousel,
+body.nil-reddit-feed-simplify community-highlight-card {
+    display: none !important;
+}
+
+
+/* --- Comments --- */
+
+/* Disable Comments */
+body.nil-reddit-comments-disable shreddit-comment-tree,
+body.nil-reddit-comments-disable #comment-tree,
+body.nil-reddit-comments-disable [id^="comment-tree"],
+body.nil-reddit-comments-disable .Comment,
+body.nil-reddit-comments-disable [data-testid="comments-page-comment-tree"] {
+    display: none !important;
+}
+
+/* Simplify Comments - Hide avatars and awards */
+body.nil-reddit-comments-simplify shreddit-comment avatar faceplate-img,
+body.nil-reddit-comments-simplify [data-testid="comment-author-icon"],
+body.nil-reddit-comments-simplify faceplate-tracker[source="award"] {
+    display: none !important;
+}
+
+
+/* --- Sidebar --- */
+
+/* Disable Sidebar */
+body.nil-reddit-sidebar-disable #right-sidebar-container,
+body.nil-reddit-sidebar-disable aside[aria-label="Sidebar"],
+body.nil-reddit-sidebar-disable pdp-right-rail,
+body.nil-reddit-sidebar-disable .sidebar,
+body.nil-reddit-sidebar-disable [data-testid="frontpage-sidebar"] {
+    display: none !important;
+}
+
+/* Simplify Sidebar - Hide premium/coins widgets */
+body.nil-reddit-sidebar-simplify [data-testid="premium-upsell"],
+body.nil-reddit-sidebar-simplify [data-testid="reddit-coins-upsell"],
+body.nil-reddit-sidebar-simplify shreddit-async-loader[bundlename="reddit_coins"],
+body.nil-reddit-sidebar-simplify shreddit-async-loader[bundlename="premium"] {
+    display: none !important;
+}
+
+
+/* --- Navbar --- */
+
+/* Disable Navbar */
+body.nil-reddit-navbar-disable reddit-header-large,
+body.nil-reddit-navbar-disable reddit-header-action-items,
+body.nil-reddit-navbar-disable header,
+body.nil-reddit-navbar-disable [data-testid="reddit-header"] {
+    display: none !important;
+}
+
+/* Simplify Navbar - Hide coins, ads, create post */
+body.nil-reddit-navbar-simplify [data-testid="header-coins"],
+body.nil-reddit-navbar-simplify a[href*="/coins"],
+body.nil-reddit-navbar-simplify a[href*="advertise"],
+body.nil-reddit-navbar-simplify faceplate-tracker[noun="get_new_reddit"] {
+    display: none !important;
+}
+
+
+/* --- Chat/Messages --- */
+
+/* Disable Chat */
+body.nil-reddit-chat-disable shreddit-async-loader[bundlename="chat"],
+body.nil-reddit-chat-disable [data-testid="chat-button"],
+body.nil-reddit-chat-disable a[aria-label="Open chat"],
+body.nil-reddit-chat-disable button[aria-label="Open chat"],
+body.nil-reddit-chat-disable faceplate-tracker[noun="chat"] {
+    display: none !important;
+}
+
+/* Simplify Chat - Hide unread badge */
+body.nil-reddit-chat-simplify [data-testid="chat-unread-count"],
+body.nil-reddit-chat-simplify .chat-unread-badge {
     display: none !important;
 }

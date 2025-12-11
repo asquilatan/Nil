@@ -10,19 +10,24 @@ export class RedditStrategy extends BlockerStrategy {
 
   onSettingsChange(settings) {
     const body = document.body;
+    const options = settings.options || {};
 
-    // Block Feed
-    if (settings.options?.blockFeed) {
-      body.classList.add('nil-reddit-no-feed');
-    } else {
-      body.classList.remove('nil-reddit-no-feed');
-    }
+    // Helper to apply mode classes
+    const applyMode = (feature, mode) => {
+      // Remove all potential classes for this feature
+      body.classList.remove(`nil-reddit-${feature}-disable`, `nil-reddit-${feature}-simplify`);
 
-    // Block Comments
-    if (settings.options?.blockComments) {
-      body.classList.add('nil-reddit-no-comments');
-    } else {
-      body.classList.remove('nil-reddit-no-comments');
-    }
+      if (mode === 'disable') {
+        body.classList.add(`nil-reddit-${feature}-disable`);
+      } else if (mode === 'simplify') {
+        body.classList.add(`nil-reddit-${feature}-simplify`);
+      }
+    };
+
+    applyMode('feed', options.feedMode);
+    applyMode('sidebar', options.sidebarMode);
+    applyMode('navbar', options.navbarMode);
+    applyMode('chat', options.chatMode);
+    applyMode('comments', options.commentsMode);
   }
 }
