@@ -272,10 +272,10 @@ body.nil-yt-navbar-simplify #footer {
 /* === OVERSIMPLIFIED MODE (Google Style) === */
 
 /* Only apply Oversimplified Mode when we are actually ON the Home Page */
-/* Use :has() to detect if the Home Page component exists */
+/* Uses JS-controlled .nil-yt-on-home class for reliable SPA navigation handling */
 
-/* Dark Background & Overflow - Only when Home is present */
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) {
+/* Dark Background & Overflow - Only when on Home */
+body.nil-yt-oversimplified.nil-yt-on-home {
   background-color: #0f0f0f !important;
   overflow: hidden !important;
 }
@@ -285,28 +285,28 @@ body.nil-yt-oversimplified ytd-browse[page-subtype="home"] {
   display: none !important;
 }
 
-/* Hide Global Elements - ONLY when Home is present */
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #secondary,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #guide,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #sidebar,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-mini-guide-renderer,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #footer,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) #chips-wrapper {
+/* Hide Global Elements - ONLY when on Home */
+body.nil-yt-oversimplified.nil-yt-on-home #secondary,
+body.nil-yt-oversimplified.nil-yt-on-home #guide,
+body.nil-yt-oversimplified.nil-yt-on-home #sidebar,
+body.nil-yt-oversimplified.nil-yt-on-home ytd-mini-guide-renderer,
+body.nil-yt-oversimplified.nil-yt-on-home #footer,
+body.nil-yt-oversimplified.nil-yt-on-home #chips-wrapper {
   display: none !important;
 }
 
-/* Masthead Styling - ONLY when Home is present */
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead {
+/* Masthead Styling - ONLY when on Home */
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead {
   background: transparent !important;
   border-bottom: none !important;
 }
 
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #end,
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #guide-button {
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #end,
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #guide-button {
   display: none !important;
 }
 
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #start {
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #start {
   position: fixed !important;
   top: 35vh !important;
   left: 50% !important;
@@ -318,12 +318,12 @@ body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #st
   opacity: 1 !important;
 }
 
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #start #logo {
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #start #logo {
   transform: scale(1.5) !important;
   padding: 0 !important;
 }
 
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #center {
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #center {
   position: fixed !important;
   top: 45vh !important;
   left: 50% !important;
@@ -334,7 +334,7 @@ body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #ce
   flex: none !important;
 }
 
-body.nil-yt-oversimplified:has(ytd-browse[page-subtype="home"]) ytd-masthead #voice-search-button {
+body.nil-yt-oversimplified.nil-yt-on-home ytd-masthead #voice-search-button {
   display: none !important;
 }
 

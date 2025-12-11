@@ -10,6 +10,14 @@ export class YouTubeStrategy extends BlockerStrategy {
     // CSS is injected via manifest.
   }
 
+  onUrlChange(url) {
+    // Re-apply settings when YouTube's SPA navigates between pages.
+    // This ensures the :has() CSS selectors are re-evaluated for the new page context.
+    if (this.currentSettings) {
+      this.onSettingsChange(this.currentSettings);
+    }
+  }
+
   onSettingsChange(settings) {
     this.currentSettings = settings;
 
@@ -21,9 +29,14 @@ export class YouTubeStrategy extends BlockerStrategy {
         return;
       }
 
+      // Determine if we're on the homepage
+      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/feed/subscriptions' || window.location.pathname.startsWith('/feed/');
+      const isActualHome = window.location.pathname === '/';
+
       // Clear all previous mode classes to prevent conflict
       body.classList.remove(
         'nil-yt-home-simplify', 'nil-yt-home-disable', 'nil-yt-oversimplified',
+        'nil-yt-on-home', // Page context class
         'nil-yt-comments-simplify', 'nil-yt-comments-disable',
         'nil-yt-sidebar-simplify', 'nil-yt-sidebar-disable',
         'nil-yt-chat-simplify', 'nil-yt-chat-disable',
@@ -35,6 +48,11 @@ export class YouTubeStrategy extends BlockerStrategy {
       // Only apply if platform is enabled
       if (!settings.enabled) {
         return;
+      }
+
+      // Add page context class for homepage
+      if (isActualHome) {
+        body.classList.add('nil-yt-on-home');
       }
 
       // Home Feed Logic
