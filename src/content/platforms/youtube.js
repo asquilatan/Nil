@@ -3,10 +3,7 @@ import { BlockerStrategy } from '../core/strategy.js';
 export class YouTubeStrategy extends BlockerStrategy {
   constructor() {
     super('youtube.com');
-    this.observer = null;
-    this.navObserver = null;
     this.currentSettings = null;
-    this.lastUrl = null;
   }
 
   init() {
@@ -40,20 +37,14 @@ export class YouTubeStrategy extends BlockerStrategy {
         return;
       }
 
-      // Home Feed Logic (Oversimplified vs Standard)
-      // Check if we are on the homepage
-      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-
-      if (isHomePage) {
-        if (settings.options?.oversimplifiedMode) {
-          // Oversimplified overrides everything else on Home
-          body.classList.add('nil-yt-oversimplified');
-        } else if (settings.options?.homeFeedMode === 'simplify') {
-          // Only apply simplify if NOT oversimplified
-          body.classList.add('nil-yt-home-simplify');
-        } else if (settings.options?.homeFeedMode === 'disable') {
-          body.classList.add('nil-yt-home-disable');
-        }
+      // Home Feed Logic
+      // Always apply classes if enabled. CSS scoping handles where they take effect.
+      if (settings.options?.oversimplifiedMode) {
+        body.classList.add('nil-yt-oversimplified');
+      } else if (settings.options?.homeFeedMode === 'simplify') {
+        body.classList.add('nil-yt-home-simplify');
+      } else if (settings.options?.homeFeedMode === 'disable') {
+        body.classList.add('nil-yt-home-disable');
       }
 
       // Search Feed
@@ -68,17 +59,14 @@ export class YouTubeStrategy extends BlockerStrategy {
         body.classList.add('nil-yt-comments-disable');
       }
 
-      // Sidebar (Recommendations) & Live Chat (Merged) - ONLY on Watch Page
-      const isWatchPage = window.location.pathname === '/watch';
-
-      if (isWatchPage) {
-        if (settings.options?.sidebarMode === 'simplify') {
-          body.classList.add('nil-yt-sidebar-simplify');
-          body.classList.add('nil-yt-chat-simplify');
-        } else if (settings.options?.sidebarMode === 'disable') {
-          body.classList.add('nil-yt-sidebar-disable');
-          body.classList.add('nil-yt-chat-disable');
-        }
+      // Sidebar (Recommendations) & Live Chat (Merged)
+      // Always apply classes if enabled. CSS scoping handles where they take effect.
+      if (settings.options?.sidebarMode === 'simplify') {
+        body.classList.add('nil-yt-sidebar-simplify');
+        body.classList.add('nil-yt-chat-simplify');
+      } else if (settings.options?.sidebarMode === 'disable') {
+        body.classList.add('nil-yt-sidebar-disable');
+        body.classList.add('nil-yt-chat-disable');
       }
 
       // Navbar
@@ -93,22 +81,5 @@ export class YouTubeStrategy extends BlockerStrategy {
     };
 
     applyClasses();
-
-    // Re-apply on navigation (SPA handling) - Setup one-time observer
-    if (!this.navObserver) {
-      this.lastUrl = location.href;
-      this.navObserver = new MutationObserver(() => {
-        const url = location.href;
-        if (url !== this.lastUrl) {
-          this.lastUrl = url;
-          console.log('[Nil] URL changed, re-applying classes');
-          // Re-run the logic with the CURRENT stored settings
-          if (this.currentSettings) {
-            this.onSettingsChange(this.currentSettings);
-          }
-        }
-      });
-      this.navObserver.observe(document, { subtree: true, childList: true });
-    }
   }
 }
