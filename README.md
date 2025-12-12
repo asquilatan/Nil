@@ -10,12 +10,17 @@ Nil is an all-in-one browser extension that simplifies social media UIs by remov
 -   **Content Blocking**: Simplify or disable Home Feed, Sidebar, Comments, and Navbar.
 -   **Smart Scoping**: Sidebar and Chat rules apply only to the Watch page.
 
+### Reddit
+-   **Feed Control**: "Simplify" (Text-only) or "Disable" the Main Feed.
+-   **Sidebar & Widgets**: Simplify or Disable the Sidebar content.
+-   **Content Toggles**: Disable "Recently Viewed" and "Subreddit Descriptions".
+-   **Conversation Focus**: Simplify or Disable Comments and Messages.
+
 ## Planned Features
 
 Targeting doom-scrolling on other platforms:
 -   **Facebook**: Block News Feed, Stories, Watch Tab.
 -   **Instagram**: Block Explore, Reels, Stories.
--   **Reddit**: Block Main Feed and Sidebars.
 -   **Twitter/X**: Block "For You" timeline.
 -   **TikTok**: Block "For You Page". 
 

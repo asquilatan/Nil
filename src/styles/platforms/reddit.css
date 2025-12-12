@@ -56,6 +56,28 @@ body.nil-reddit-feed-simplify community-highlight-card {
     display: none !important;
 }
 
+/* Hide actions (vote buttons, share, comments button row) */
+body.nil-reddit-feed-simplify shreddit-feed [data-testid="action-row"],
+body.nil-reddit-feed-simplify shreddit-feed shreddit-post-share-button,
+body.nil-reddit-feed-simplify shreddit-feed award-button {
+    display: none !important;
+}
+
+/* Hide tooltips and status icons */
+body.nil-reddit-feed-simplify shreddit-feed community-status-tooltip {
+    display: none !important;
+}
+
+/* Hide NSFW tags and other content tags */
+body.nil-reddit-feed-simplify shreddit-content-tags {
+    display: none !important;
+}
+
+/* Hide text descriptions/body previews */
+body.nil-reddit-feed-simplify shreddit-feed shreddit-post-text-body {
+    display: none !important;
+}
+
 
 /* --- Comments --- */
 
@@ -68,66 +90,197 @@ body.nil-reddit-comments-disable [data-testid="comments-page-comment-tree"] {
     display: none !important;
 }
 
-/* Simplify Comments - Hide avatars and awards */
-body.nil-reddit-comments-simplify shreddit-comment avatar faceplate-img,
-body.nil-reddit-comments-simplify [data-testid="comment-author-icon"],
-body.nil-reddit-comments-simplify faceplate-tracker[source="award"] {
+/* Simplify Comments - Hide images/GIFs and Replace Avatars */
+/* Scope to shreddit-comment to avoid hiding user profile or sidebar icons */
+body.nil-reddit-comments-simplify shreddit-comment figure.rte-media:not(.nil-show-media) {
+    display: none !important;
+}
+
+/* Generic Avatar Logic: Hide img/svg but keep container with background */
+body.nil-reddit-comments-simplify shreddit-comment faceplate-tracker[noun="comment_author_avatar"] img,
+body.nil-reddit-comments-simplify shreddit-comment span[avatar] img,
+body.nil-reddit-comments-simplify shreddit-comment [avatar] img,
+body.nil-reddit-comments-simplify shreddit-comment [avatar] svg,
+body.nil-reddit-comments-simplify shreddit-comment [avatar] image {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Remove any background gradients or colors from children */
+body.nil-reddit-comments-simplify shreddit-comment [avatar] * {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+body.nil-reddit-comments-simplify shreddit-comment faceplate-tracker[noun="comment_author_avatar"] span[avatar],
+body.nil-reddit-comments-simplify shreddit-comment [avatar] {
+    background-color: var(--color-neutral-background-strong, #212121) !important;
+    /* Uniform Black/Dark */
+    border-radius: 50% !important;
+    display: inline-block !important;
+    overflow: hidden !important;
+
+    /* Enforce circle shape */
+    width: 2rem !important;
+    height: 2rem !important;
+    min-width: 2rem !important;
+    aspect-ratio: 1/1 !important;
+    flex-shrink: 0 !important;
+    /* Ensure generic background isn't covered */
+}
+
+/* Hide Comment Action Rows */
+body.nil-reddit-comments-simplify shreddit-comment-action-row {
+    display: none !important;
+}
+
+/* View Image Placeholder */
+.nil-view-image-placeholder {
+    display: none;
+    cursor: pointer;
+    text-decoration: underline;
+    color: inherit;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+body.nil-reddit-comments-simplify .nil-view-image-placeholder {
+    display: inline-block;
+}
+
+
+/* --- Recently Viewed (Right Sidebar) --- */
+
+/* Disable Recently Viewed - Hides the right sidebar with recent posts */
+/* SCOPED TO FEED ONLY - does not hide on post pages where sidebar contains subreddit info */
+body.nil-reddit-on-feed.nil-reddit-recently-viewed-disable #right-sidebar-container,
+body.nil-reddit-on-feed.nil-reddit-recently-viewed-disable aside[aria-label="Sidebar"],
+body.nil-reddit-on-feed.nil-reddit-recently-viewed-disable pdp-right-rail,
+body.nil-reddit-on-feed.nil-reddit-recently-viewed-disable .sidebar,
+body.nil-reddit-on-feed.nil-reddit-recently-viewed-disable [data-testid="frontpage-sidebar"] {
     display: none !important;
 }
 
 
-/* --- Sidebar --- */
+/* --- Sidebar Content (Left Sidebar) --- */
 
-/* Disable Sidebar */
-body.nil-reddit-sidebar-disable #right-sidebar-container,
-body.nil-reddit-sidebar-disable aside[aria-label="Sidebar"],
-body.nil-reddit-sidebar-disable pdp-right-rail,
-body.nil-reddit-sidebar-disable .sidebar,
-body.nil-reddit-sidebar-disable [data-testid="frontpage-sidebar"] {
+/* Disable Sidebar Content - Hides the entire left sidebar */
+body.nil-reddit-sidebar-content-disable #flex-left-nav-container,
+body.nil-reddit-sidebar-content-disable #left-sidebar,
+body.nil-reddit-sidebar-content-disable left-nav {
     display: none !important;
 }
 
-/* Simplify Sidebar - Hide premium/coins widgets */
-body.nil-reddit-sidebar-simplify [data-testid="premium-upsell"],
-body.nil-reddit-sidebar-simplify [data-testid="reddit-coins-upsell"],
-body.nil-reddit-sidebar-simplify shreddit-async-loader[bundlename="reddit_coins"],
-body.nil-reddit-sidebar-simplify shreddit-async-loader[bundlename="premium"] {
+/* Simplify Sidebar Content - Hide specific sections from left sidebar */
+/* All rules scoped to #left-sidebar to prevent affecting right sidebar */
+
+/* Hide "Games on Reddit" section */
+body.nil-reddit-sidebar-content-simplify #left-sidebar faceplate-tracker[source="nav"][action="view"][noun="games_drawer"],
+body.nil-reddit-sidebar-content-simplify #left-sidebar games-section-badge-controller {
     display: none !important;
 }
 
-
-/* --- Navbar --- */
-
-/* Disable Navbar */
-body.nil-reddit-navbar-disable reddit-header-large,
-body.nil-reddit-navbar-disable reddit-header-action-items,
-body.nil-reddit-navbar-disable header,
-body.nil-reddit-navbar-disable [data-testid="reddit-header"] {
+/* Hide "Custom Feeds" section */
+body.nil-reddit-sidebar-content-simplify #left-sidebar faceplate-tracker[source="community_nav"][action="click"][noun="create_new_custom_feed"],
+body.nil-reddit-sidebar-content-simplify #left-sidebar custom-feed-edit-button,
+body.nil-reddit-sidebar-content-simplify #left-sidebar left-nav-multireddits-controller,
+body.nil-reddit-sidebar-content-simplify #left-sidebar faceplate-expandable-section-helper:has(summary[aria-controls="multireddits_section"]) {
     display: none !important;
 }
 
-/* Simplify Navbar - Hide coins, ads, create post */
-body.nil-reddit-navbar-simplify [data-testid="header-coins"],
-body.nil-reddit-navbar-simplify a[href*="/coins"],
-body.nil-reddit-navbar-simplify a[href*="advertise"],
-body.nil-reddit-navbar-simplify faceplate-tracker[noun="get_new_reddit"] {
+/* Hide "Recent" section */
+body.nil-reddit-sidebar-content-simplify #left-sidebar reddit-recent-pages {
     display: none !important;
+}
+
+/* Hide "Communities" section */
+body.nil-reddit-sidebar-content-simplify #left-sidebar faceplate-expandable-section-helper:has(summary[aria-controls="communities_section"]),
+body.nil-reddit-sidebar-content-simplify #left-sidebar left-nav-communities-controller {
+    display: none !important;
+}
+
+/* Hide HR dividers above hidden sections to prevent stacked lines */
+body.nil-reddit-sidebar-content-simplify #left-sidebar hr.border-neutral-border-weak {
+    display: none !important;
+}
+
+/* BUT keep the first HR after the top section (Start a Community) so it separates from Resources */
+body.nil-reddit-sidebar-content-simplify #left-sidebar left-nav-top-section+hr.border-neutral-border-weak {
+    display: block !important;
 }
 
 
 /* --- Chat/Messages --- */
 
-/* Disable Chat */
+/* Disable Chat - Hide icon and main chat interface */
 body.nil-reddit-chat-disable shreddit-async-loader[bundlename="chat"],
 body.nil-reddit-chat-disable [data-testid="chat-button"],
+body.nil-reddit-chat-disable #header-action-item-chat-button,
+body.nil-reddit-chat-disable reddit-chat-header-button,
+body.nil-reddit-chat-disable #resizable,
+body.nil-reddit-chat-disable [data-testid="reddit-chat-client"],
+body.nil-reddit-chat-disable .rs-app-container,
 body.nil-reddit-chat-disable a[aria-label="Open chat"],
 body.nil-reddit-chat-disable button[aria-label="Open chat"],
 body.nil-reddit-chat-disable faceplate-tracker[noun="chat"] {
     display: none !important;
 }
 
-/* Simplify Chat - Hide unread badge */
-body.nil-reddit-chat-simplify [data-testid="chat-unread-count"],
-body.nil-reddit-chat-simplify .chat-unread-badge {
+/* Chat Simplify rules removed per user request (Only Normal/Disable allowed) */
+/* Simplify Sidebar Content - Hides generic icons but keeps nav text? */
+/* TODO: Refine if requested. Current "Simplify" mode not defined for sidebar in task. */
+
+/* --- Navigation Bar --- */
+
+/* Simplify Navbar - Hides logo, search bar (optional), coin balance, advertise button */
+body.nil-reddit-navbar-simplify reddit-header-large::part(start),
+body.nil-reddit-navbar-simplify reddit-header-large::part(search),
+body.nil-reddit-navbar-simplify #header-search-bar,
+body.nil-reddit-navbar-simplify #reddit-logo,
+body.nil-reddit-navbar-simplify [data-testid="logo"],
+body.nil-reddit-navbar-simplify a[aria-label="Home"],
+body.nil-reddit-navbar-simplify #coin-balance,
+body.nil-reddit-navbar-simplify #advertise-button,
+body.nil-reddit-navbar-simplify a[href="/advertising"] {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    margin: 0 !important;
+}
+
+/* Disable Navbar - Hide entire top bar (Aggressive) */
+body.nil-reddit-navbar-disable reddit-header-large,
+body.nil-reddit-navbar-disable reddit-header-small,
+body.nil-reddit-navbar-disable nav.header,
+body.nil-reddit-navbar-disable header {
+    display: none !important;
+}
+
+/* --- Messages / Chat --- */
+/* Handled mainly by JS for Disable mode */
+/* Simplify mode could hide badges? */
+
+
+/* --- New Features (Step 460-470) --- */
+
+/* Hide Notification Badge (Red Icon) - Active by default when extension is enabled */
+body.nil-reddit-active span[data-part="inbox"] dynamic-badge,
+body.nil-reddit-active faceplate-tracker[noun="inbox"]+div dynamic-badge,
+body.nil-reddit-active faceplate-tracker[noun="inbox"]~div dynamic-badge {
+    display: none !important;
+}
+
+/* Hide Subreddit Description (Right Sidebar Widget) */
+/* Targets the "About Community" widget usually found in the right rail */
+body.nil-reddit-hide-sidebar-description aside[aria-label="Community information"],
+body.nil-reddit-hide-sidebar-description shreddit-subreddit-header[slot="community-details"],
+body.nil-reddit-hide-sidebar-description #subreddit-right-rail__partial aside {
+    display: none !important;
+}
+
+/* Simplify Comments - Hide Author Flair */
+body.nil-reddit-comments-simplify author-flair-event-handler,
+body.nil-reddit-comments-simplify .flair-content,
+body.nil-reddit-comments-simplify [data-testid="author-flair"] {
     display: none !important;
 }

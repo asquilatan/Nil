@@ -77,8 +77,13 @@
       ]
     }
   ],
+  "icons": {
+    "16": "popup/assets/nil_dark.png",
+    "48": "popup/assets/nil_dark.png",
+    "128": "popup/assets/nil_dark.png"
+  },
   "action": {
     "default_popup": "popup/dist/index.html",
-    "default_icon": "popup/assets/nil_logo.png"
+    "default_icon": "popup/assets/nil_dark.png"
   }
 }

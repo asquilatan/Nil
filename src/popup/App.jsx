@@ -44,8 +44,8 @@ const DEFAULT_SETTINGS = {
       enabled: true,
       options: {
         feedMode: 'simplify',
-        sidebarMode: 'simplify',
-        navbarMode: 'simplify',
+        sidebarContentMode: 'simplify',
+        recentlyViewedMode: 'normal',
         chatMode: 'simplify',
         commentsMode: 'simplify'
       }
@@ -56,11 +56,12 @@ const DEFAULT_SETTINGS = {
 
 export function App() {
   const [settings, setSettings] = useState(null);
-  const [activeTab, setActiveTab] = useState('youtube.com');
+  const [activeTab, setActiveTab] = useState(null); // Start with null to load from storage
 
   useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-      chrome.storage.local.get('settings', (data) => {
+      // Load both settings and active tab
+      chrome.storage.local.get(['settings', 'activeTab'], (data) => {
         // Merge defaults to handle schema migration/updates
         const loadedFn = data.settings || DEFAULT_SETTINGS;
         // Simple merge for now - in production might need deeper merge, 
@@ -77,9 +78,13 @@ export function App() {
         }
 
         setSettings(merged);
+
+        // Load active tab, default to youtube.com if not set
+        setActiveTab(data.activeTab || 'youtube.com');
       });
     } else {
       setSettings(DEFAULT_SETTINGS);
+      setActiveTab('youtube.com');
     }
   }, []);
 
@@ -99,7 +104,15 @@ export function App() {
     }
   };
 
-  if (!settings) return <div class="loading-screen">Loading...</div>;
+  // Handler for tab changes that persists selection
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.local.set({ activeTab: newTab });
+    }
+  };
+
+  if (!settings || activeTab === null) return <div class="loading-screen">Loading...</div>;
 
   const platform = settings.platforms[activeTab] || { enabled: false, options: {} };
 
@@ -133,6 +146,8 @@ export function App() {
         { label: 'Normal', value: 'normal' },
         { label: 'Simplify', value: 'simplify' }
       ];
+
+
 
       // Youtube specific options
       if (!isReddit) {
@@ -227,6 +242,11 @@ export function App() {
       }
 
       // Reddit specific options
+      const modeOptions2Disable = [
+        { label: 'Normal', value: 'normal' },
+        { label: 'Disable', value: 'disable' }
+      ];
+
       return (
         <Card>
           <div class="option-row">
@@ -246,12 +266,12 @@ export function App() {
           <div class="option-row">
             <div class="setting-header">
               <Video size={16} class="setting-icon" />
-              <span>Sidebar</span>
+              <span>Recently Viewed</span>
             </div>
             <SegmentedControl
-              options={modeOptions3}
-              value={platform.options?.sidebarMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
+              options={modeOptions2Disable}
+              value={platform.options?.recentlyViewedMode || 'normal'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'recentlyViewedMode'], v)}
             />
           </div>
 
@@ -259,17 +279,26 @@ export function App() {
 
           <div class="option-row">
             <div class="setting-header">
-              <Menu size={16} class="setting-icon" />
-              <span>Top Navbar</span>
+              <Video size={16} class="setting-icon" />
+              <span>Sidebar Content</span>
             </div>
-            <SegmentedControl
-              options={modeOptions3}
-              value={platform.options?.navbarMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+              <SegmentedControl
+                options={modeOptions3}
+                value={platform.options?.sidebarContentMode || 'normal'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarContentMode'], v)}
+              />
+              <Toggle
+                label="Hide Subreddit Description"
+                checked={platform.options?.hideSubredditDescription || false}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'hideSubredditDescription'], v)}
+              />
+            </div>
           </div>
 
           <div class="h-2"></div>
+
+
 
           <div class="option-row">
             <div class="setting-header">
@@ -277,7 +306,7 @@ export function App() {
               <span>Messages</span>
             </div>
             <SegmentedControl
-              options={modeOptions3}
+              options={modeOptions2Disable}
               value={platform.options?.chatMode || 'normal'}
               onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v)}
             />
@@ -327,7 +356,7 @@ export function App() {
 
         {/* Sidebar */}
         <div class="sidebar-wrapper">
-          <Sidebar active={activeTab} onSelect={setActiveTab} statusMap={statusMap} />
+          <Sidebar active={activeTab} onSelect={handleTabChange} statusMap={statusMap} />
         </div>
 
         {/* Main Content */}

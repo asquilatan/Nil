@@ -163,10 +163,34 @@ body.nil-yt-sidebar-simplify ytd-watch-flexy ytd-compact-video-renderer>div {
 
 /* === VIDEO PAGE: COMMENTS (SIMPLIFY) === */
 
-/* Hide Avatars */
-body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-view-model #author-thumbnail,
-body.nil-yt-comments-simplify ytd-watch-flexy #comments #author-thumbnail {
-  display: none !important;
+/* Comments Simplify - Generic Avatars (Preserve Layout) */
+body.nil-yt-comments-simplify #author-thumbnail {
+  background-color: #212121 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+
+  /* Enforce strict circular dimensions */
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  flex-shrink: 0 !important;
+  aspect-ratio: 1/1 !important;
+}
+
+body.nil-yt-comments-simplify #author-thumbnail img,
+body.nil-yt-comments-simplify #author-thumbnail yt-img-shadow {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Ensure the link inside maintains shape */
+body.nil-yt-comments-simplify #author-thumbnail a {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* Hide Date */
@@ -202,7 +226,8 @@ body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-thread-renderer {
 
 /* RESTORED: Reply Indentation Fix */
 body.nil-yt-comments-simplify ytd-watch-flexy #replies {
-  padding-left: 20px !important;
+  padding-left: 56px !important;
+  /* Avatar width (40px) + gap (16px) */
   margin-left: 0 !important;
 }
 
@@ -210,8 +235,14 @@ body.nil-yt-comments-simplify ytd-watch-flexy ytd-comment-replies-renderer {
   margin-left: 0 !important;
 }
 
+/* Reply avatars - smaller generic circles */
 body.nil-yt-comments-simplify ytd-watch-flexy #replies #author-thumbnail {
-  display: none !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
 }
 
 

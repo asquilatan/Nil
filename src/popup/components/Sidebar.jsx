@@ -1,12 +1,36 @@
-import { Youtube, Facebook, Instagram, MessageCircle, Settings } from 'lucide-preact';
+import { Youtube, Facebook, Instagram, Settings } from 'lucide-preact';
 import Logo from '../assets/nil_dark.png';
+import RedditIconSvg from '../assets/reddit_icon.svg';
+
+// Custom Reddit Icon Component
+// Custom Reddit Icon Component
+const RedditIcon = ({ size = 24, className, ...props }) => (
+  <div
+    className={className}
+    style={{
+      width: size,
+      height: size,
+      backgroundColor: 'currentColor',
+      maskImage: `url(${RedditIconSvg})`,
+      WebkitMaskImage: `url(${RedditIconSvg})`,
+      maskSize: 'contain',
+      WebkitMaskSize: 'contain',
+      maskRepeat: 'no-repeat',
+      WebkitMaskRepeat: 'no-repeat',
+      maskPosition: 'center',
+      WebkitMaskPosition: 'center',
+      display: 'inline-block'
+    }}
+    {...props}
+  />
+);
 
 export function Sidebar({ active, onSelect, statusMap = {} }) {
   const items = [
     { id: 'youtube.com', icon: Youtube, label: 'YouTube' },
     { id: 'facebook.com', icon: Facebook, label: 'Facebook' },
     { id: 'instagram.com', icon: Instagram, label: 'Instagram' },
-    { id: 'reddit.com', icon: MessageCircle, label: 'Reddit' },
+    { id: 'reddit.com', icon: RedditIcon, label: 'Reddit' },
   ];
 
   return (

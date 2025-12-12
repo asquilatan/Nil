@@ -15,3 +15,6 @@ coverage/
 # IDE and Project
 .github/
 .vscode/
+
+.specs/
+.specs_2/
