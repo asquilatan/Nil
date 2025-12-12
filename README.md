@@ -1,4 +1,5 @@
 # Nil: Distraction-free Social Media
+![Nil Banner](banner/nil_logo.png)
 
 Nil is an all-in-one browser extension that simplifies social media UIs by removing addicting elements.
 
@@ -23,6 +24,8 @@ Targeting doom-scrolling on other platforms:
 -   **Instagram**: Block Explore, Reels, Stories.
 -   **Twitter/X**: Block "For You" timeline.
 -   **TikTok**: Block "For You Page". 
+-   **Advanced Customization**: Granular settings to toggle specific features across all platforms. 
+
 
 ## Installation
 
@@ -34,3 +37,11 @@ Targeting doom-scrolling on other platforms:
 
 -   `npm test`
 -   `npm run build:popup`
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
