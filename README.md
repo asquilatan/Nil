@@ -1,5 +1,7 @@
 # Nil: Distraction-free Social Media
-![Nil Banner](banner/nil_logo.png)
+<p align="center">
+  <img src="banner/nil_logo.png" alt="Nil Banner">
+</p>
 
 Nil is an all-in-one browser extension that simplifies social media UIs by removing addicting elements.
 
