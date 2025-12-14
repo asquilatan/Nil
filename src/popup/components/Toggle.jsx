@@ -1,7 +1,8 @@
 export function Toggle({ label, checked, onChange, disabled = false }) {
+  const isMinimal = !label;
   return (
-    <label class={`toggle-label ${disabled ? 'disabled' : ''}`}>
-      <span class="toggle-text">{label}</span>
+    <label class={`toggle-label ${disabled ? 'disabled' : ''} ${isMinimal ? 'minimal' : ''}`}>
+      {label && <span class="toggle-text">{label}</span>}
 
       <div class="toggle-switch-wrapper">
         <input

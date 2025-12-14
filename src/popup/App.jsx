@@ -221,176 +221,183 @@ export function App() {
       if (!isReddit) {
         return (
           <Card>
-            <div class="option-row">
-              <div class="setting-header">
+            {/* Home Feed - 4 choices → dropdown (includes Oversimplified) */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <Home size={16} class="setting-icon" />
                 <span>Home Feed</span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
-                <SegmentedControl
-                  options={modeOptions3}
-                  value={platform.options?.homeFeedMode || 'normal'}
-                  onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], v)}
-                />
-                <Toggle
-                  label="Oversimplified (Google Style)"
-                  checked={platform.options?.oversimplifiedMode || false}
-                  onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'oversimplifiedMode'], v)}
-                />
-              </div>
+              <select
+                class="platform-select"
+                value={platform.options?.homeFeedMode || 'normal'}
+                onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'homeFeedMode'], e.target.value)}
+              >
+                <option value="normal">Normal</option>
+                <option value="simplify">Simplify</option>
+                <option value="oversimplified">Oversimplified</option>
+                <option value="disable">Disable</option>
+              </select>
             </div>
 
-            <div class="h-2"></div>
-
-            <div class="option-row">
-              <div class="setting-header">
+            {/* Search Feed - 2 choices → toggle */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <Search size={16} class="setting-icon" />
                 <span>Search Feed</span>
               </div>
-              <SegmentedControl
-                options={modeOptions2}
-                value={platform.options?.searchFeedMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'searchFeedMode'], v)}
+              <Toggle
+                checked={platform.options?.searchFeedMode === 'simplify'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'searchFeedMode'], v ? 'simplify' : 'normal')}
               />
             </div>
 
-            <div class="h-2"></div>
-
-            <div class="option-row">
-              <div class="setting-header">
+            {/* Comments - 3 choices → dropdown */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <MessageSquare size={16} class="setting-icon" />
                 <span>Comments</span>
               </div>
-              <SegmentedControl
-                options={modeOptions3}
+              <select
+                class="platform-select"
                 value={platform.options?.commentsMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], v)}
-              />
+                onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], e.target.value)}
+              >
+                <option value="normal">Normal</option>
+                <option value="simplify">Simplify</option>
+                <option value="disable">Disable</option>
+              </select>
             </div>
 
-            <div class="h-2"></div>
-
-            <div class="option-row">
-              <div class="setting-header">
+            {/* Sidebar Content - 3 choices → dropdown */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <Video size={16} class="setting-icon" />
                 <span>Sidebar Content</span>
               </div>
-              <SegmentedControl
-                options={modeOptions3}
+              <select
+                class="platform-select"
                 value={platform.options?.sidebarMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], v)}
-              />
+                onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'sidebarMode'], e.target.value)}
+              >
+                <option value="normal">Normal</option>
+                <option value="simplify">Simplify</option>
+                <option value="disable">Disable</option>
+              </select>
             </div>
 
-            <div class="h-2"></div>
-
-            <div class="option-row">
-              <div class="setting-header">
+            {/* Navigation Bar - 2 choices → toggle */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <Menu size={16} class="setting-icon" />
                 <span>Navigation Bar</span>
               </div>
-              <SegmentedControl
-                options={modeOptions2}
-                value={platform.options?.navbarMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v)}
+              <Toggle
+                checked={platform.options?.navbarMode === 'simplify'}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'navbarMode'], v ? 'simplify' : 'normal')}
               />
             </div>
 
-            <div class="h-2"></div>
-
-            <div class="option-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div class="setting-header" style={{ margin: 0 }}>
+            {/* Video Playback - toggle */}
+            <div class="platform-setting-row">
+              <div class="platform-setting-label">
                 <Tv size={16} class="setting-icon" />
-                <span>Video Playback</span>
+                <span>Disable Playback</span>
               </div>
-              <Toggle checked={platform.options?.disablePlayback} onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'disablePlayback'], v)} />
+              <Toggle
+                checked={platform.options?.disablePlayback || false}
+                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'disablePlayback'], v)}
+              />
             </div>
           </Card>
         );
       }
 
       // Reddit specific options
-      const modeOptions2Disable = [
-        { label: 'Normal', value: 'normal' },
-        { label: 'Disable', value: 'disable' }
-      ];
-
       return (
         <Card>
-          <div class="option-row">
-            <div class="setting-header">
+          {/* Main Feed - 3 choices → dropdown */}
+          <div class="platform-setting-row">
+            <div class="platform-setting-label">
               <Home size={16} class="setting-icon" />
               <span>Main Feed</span>
             </div>
-            <SegmentedControl
-              options={modeOptions3}
+            <select
+              class="platform-select"
               value={platform.options?.feedMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'feedMode'], v)}
-            />
+              onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'feedMode'], e.target.value)}
+            >
+              <option value="normal">Normal</option>
+              <option value="simplify">Simplify</option>
+              <option value="disable">Disable</option>
+            </select>
           </div>
 
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
+          {/* Recently Viewed - 2 choices → toggle */}
+          <div class="platform-setting-row">
+            <div class="platform-setting-label">
               <Video size={16} class="setting-icon" />
               <span>Recently Viewed</span>
             </div>
-            <SegmentedControl
-              options={modeOptions2Disable}
-              value={platform.options?.recentlyViewedMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'recentlyViewedMode'], v)}
+            <Toggle
+              checked={platform.options?.recentlyViewedMode === 'disable'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'recentlyViewedMode'], v ? 'disable' : 'normal')}
             />
           </div>
 
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
+          {/* Sidebar Content - 3 choices → dropdown */}
+          <div class="platform-setting-row">
+            <div class="platform-setting-label">
               <Video size={16} class="setting-icon" />
               <span>Sidebar Content</span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
-              <SegmentedControl
-                options={modeOptions3}
-                value={platform.options?.sidebarContentMode || 'normal'}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'sidebarContentMode'], v)}
-              />
+            <select
+              class="platform-select"
+              value={platform.options?.sidebarContentMode || 'normal'}
+              onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'sidebarContentMode'], e.target.value)}
+            >
+              <option value="normal">Normal</option>
+              <option value="simplify">Simplify</option>
+              <option value="disable">Disable</option>
+            </select>
+          </div>
+
+          {/* Hide Subreddit Description - sub-setting toggle */}
+          {platform.options?.sidebarContentMode !== 'normal' && (
+            <div class="platform-setting-row sub-setting">
+              <span class="platform-setting-sublabel">Hide Subreddit Description</span>
               <Toggle
-                label="Hide Subreddit Description"
                 checked={platform.options?.hideSubredditDescription || false}
                 onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'hideSubredditDescription'], v)}
               />
             </div>
-          </div>
+          )}
 
-          <div class="h-2"></div>
-
-
-
-          <div class="option-row">
-            <div class="setting-header">
-              <MessageCircle size={16} class="setting-icon" />
-              <span>Messages</span>
-            </div>
-            <SegmentedControl
-              options={modeOptions2Disable}
-              value={platform.options?.chatMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v)}
-            />
-          </div>
-
-          <div class="h-2"></div>
-
-          <div class="option-row">
-            <div class="setting-header">
+          {/* Comments - 3 choices → dropdown */}
+          <div class="platform-setting-row">
+            <div class="platform-setting-label">
               <MessageSquare size={16} class="setting-icon" />
               <span>Comments</span>
             </div>
-            <SegmentedControl
-              options={modeOptions3}
+            <select
+              class="platform-select"
               value={platform.options?.commentsMode || 'normal'}
-              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], v)}
+              onChange={(e) => updateSetting(['platforms', activeTab, 'options', 'commentsMode'], e.target.value)}
+            >
+              <option value="normal">Normal</option>
+              <option value="simplify">Simplify</option>
+              <option value="disable">Disable</option>
+            </select>
+          </div>
+
+          {/* Messages - 2 choices → toggle */}
+          <div class="platform-setting-row">
+            <div class="platform-setting-label">
+              <MessageCircle size={16} class="setting-icon" />
+              <span>Messages</span>
+            </div>
+            <Toggle
+              checked={platform.options?.chatMode === 'disable'}
+              onChange={(v) => updateSetting(['platforms', activeTab, 'options', 'chatMode'], v ? 'disable' : 'normal')}
             />
           </div>
         </Card>

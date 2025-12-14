@@ -437,6 +437,19 @@ button {
   cursor: not-allowed;
 }
 
+/* Minimal toggle - no outer box, just the switch */
+.toggle-label.minimal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+.toggle-label.minimal:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
 .toggle-text {
   font-size: 0.875rem;
   font-weight: 500;
@@ -548,6 +561,77 @@ input:checked~.toggle-thumb {
 
 .option-row:last-child {
   margin-bottom: 0;
+}
+
+/* Platform Settings Row (new layout) */
+.platform-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0;
+}
+
+.platform-setting-row.sub-setting {
+  padding-left: 1.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.platform-setting-label {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.platform-setting-label .setting-icon {
+  color: var(--text-muted);
+}
+
+.platform-setting-sublabel {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Platform Select Dropdown */
+.platform-select {
+  min-width: 110px;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background-color: var(--bg-toggle);
+  border: 1px solid var(--border-hover);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  transition: all 0.2s ease;
+}
+
+.platform-select:hover {
+  border-color: var(--text-muted);
+}
+
+.platform-select:focus {
+  outline: none;
+  border-color: var(--emerald-500);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.platform-select option {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .platform-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
 /* Utilities */
