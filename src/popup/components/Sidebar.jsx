@@ -1,8 +1,8 @@
 import { Youtube, Facebook, Instagram, Settings } from 'lucide-preact';
-import Logo from '../assets/nil_dark.png';
+import LogoDark from '../assets/nil_dark.png';
+import LogoLight from '../assets/nil_light.png';
 import RedditIconSvg from '../assets/reddit_icon.svg';
 
-// Custom Reddit Icon Component
 // Custom Reddit Icon Component
 const RedditIcon = ({ size = 24, className, ...props }) => (
   <div
@@ -25,13 +25,16 @@ const RedditIcon = ({ size = 24, className, ...props }) => (
   />
 );
 
-export function Sidebar({ active, onSelect, statusMap = {} }) {
+export function Sidebar({ active, onSelect, statusMap = {}, theme = 'dark' }) {
   const items = [
     { id: 'youtube.com', icon: Youtube, label: 'YouTube' },
     { id: 'facebook.com', icon: Facebook, label: 'Facebook' },
     { id: 'instagram.com', icon: Instagram, label: 'Instagram' },
     { id: 'reddit.com', icon: RedditIcon, label: 'Reddit' },
   ];
+
+  // Use light logo for light theme, dark logo for dark theme
+  const Logo = theme === 'light' ? LogoLight : LogoDark;
 
   return (
     <div class="sidebar">
@@ -57,8 +60,11 @@ export function Sidebar({ active, onSelect, statusMap = {} }) {
 
       {/* Footer Settings */}
       <div class="sidebar-footer">
-        <button class="settings-btn">
-          <Settings size={18} strokeWidth={2} />
+        <button
+          class={`nav-item settings-nav-item ${active === 'settings' ? 'active' : ''}`}
+          onClick={() => onSelect('settings')}
+        >
+          <Settings size={18} strokeWidth={2} class="nav-icon" />
           <span>Settings</span>
         </button>
       </div>

@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { Toggle } from './components/Toggle';
 import { Card } from './components/Card';
 import { SegmentedControl } from './components/SegmentedControl';
-import { Home, MessageSquare, Video, MessageCircle, Menu, Tv, Search } from 'lucide-preact';
+import { Home, MessageSquare, Video, MessageCircle, Menu, Tv, Search, ChevronDown } from 'lucide-preact';
 
 const DEFAULT_SETTINGS = {
   enabled: true,
@@ -57,11 +57,49 @@ const DEFAULT_SETTINGS = {
 export function App() {
   const [settings, setSettings] = useState(null);
   const [activeTab, setActiveTab] = useState(null); // Start with null to load from storage
+  const [theme, setTheme] = useState('dark'); // Theme state
+  const [settingsSearch, setSettingsSearch] = useState(''); // Settings search query
+
+  // Fuzzy match function - checks if search chars appear in order in text
+  const fuzzyMatch = (text, search) => {
+    if (!search) return true;
+    const searchLower = search.toLowerCase();
+    const textLower = text.toLowerCase();
+
+    let searchIndex = 0;
+    for (let i = 0; i < textLower.length && searchIndex < searchLower.length; i++) {
+      if (textLower[i] === searchLower[searchIndex]) {
+        searchIndex++;
+      }
+    }
+    return searchIndex === searchLower.length;
+  };
+
+  // Define all searchable settings
+  const allSettings = [
+    { section: 'Appearance', key: 'theme', label: 'Theme', keywords: ['theme', 'dark', 'light', 'mode', 'appearance', 'color'] }
+  ];
+
+  // Filter settings based on search
+  const filterSettings = (sectionName) => {
+    if (!settingsSearch) return true;
+    const sectionSettings = allSettings.filter(s => s.section === sectionName);
+    return sectionSettings.some(s =>
+      fuzzyMatch(s.label, settingsSearch) ||
+      fuzzyMatch(s.section, settingsSearch) ||
+      s.keywords.some(k => fuzzyMatch(k, settingsSearch))
+    );
+  };
+
+  const filterSettingItem = (label, keywords = []) => {
+    if (!settingsSearch) return true;
+    return fuzzyMatch(label, settingsSearch) || keywords.some(k => fuzzyMatch(k, settingsSearch));
+  };
 
   useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-      // Load both settings and active tab
-      chrome.storage.local.get(['settings', 'activeTab'], (data) => {
+      // Load settings, active tab, and theme
+      chrome.storage.local.get(['settings', 'activeTab', 'theme'], (data) => {
         // Merge defaults to handle schema migration/updates
         const loadedFn = data.settings || DEFAULT_SETTINGS;
         // Simple merge for now - in production might need deeper merge, 
@@ -81,6 +119,17 @@ export function App() {
 
         // Load active tab, default to youtube.com if not set
         setActiveTab(data.activeTab || 'youtube.com');
+
+        // Load theme
+        const savedTheme = data.theme || 'dark';
+        setTheme(savedTheme);
+
+        // Determine actual theme to apply
+        let actualTheme = savedTheme;
+        if (savedTheme === 'system') {
+          actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', actualTheme);
       });
     } else {
       setSettings(DEFAULT_SETTINGS);
@@ -121,9 +170,28 @@ export function App() {
     'youtube.com': 'YouTube',
     'facebook.com': 'Facebook',
     'instagram.com': 'Instagram',
-    'reddit.com': 'Reddit'
+    'reddit.com': 'Reddit',
+    'settings': 'Settings'
   };
   const platformName = displayNames[activeTab] || activeTab;
+
+  // Toggle theme handler
+  const toggleTheme = (newTheme) => {
+    setTheme(newTheme);
+
+    // Determine actual theme to apply
+    let actualTheme = newTheme;
+    if (newTheme === 'system') {
+      // Use system preference
+      actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    document.documentElement.setAttribute('data-theme', actualTheme);
+
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.local.set({ theme: newTheme });
+    }
+  };
 
   // Create status map for sidebar indicators
   const statusMap = Object.entries(settings.platforms).reduce((acc, [key, val]) => {
@@ -356,7 +424,7 @@ export function App() {
 
         {/* Sidebar */}
         <div class="sidebar-wrapper">
-          <Sidebar active={activeTab} onSelect={handleTabChange} statusMap={statusMap} />
+          <Sidebar active={activeTab} onSelect={handleTabChange} statusMap={statusMap} theme={theme} />
         </div>
 
         {/* Main Content */}
@@ -365,29 +433,102 @@ export function App() {
           <div class="header">
             <h2 class="header-title">{platformName}</h2>
 
-            {/* Active Status Badge */}
-            <div class={`status-badge ${platform.enabled ? 'active' : 'disabled'}`}>
-              <div class={`status-dot ${platform.enabled ? 'active' : 'disabled'}`}></div>
-              {platform.enabled ? 'Active' : 'Disabled'}
-            </div>
+            {/* Active Status Badge - only show for platforms, not settings */}
+            {activeTab !== 'settings' && (
+              <div class={`status-badge ${platform.enabled ? 'active' : 'disabled'}`}>
+                <div class={`status-dot ${platform.enabled ? 'active' : 'disabled'}`}></div>
+                {platform.enabled ? 'Active' : 'Disabled'}
+              </div>
+            )}
           </div>
 
           {/* Scrollable Content */}
           <main class="scrollable-content">
-            {/* Main Enable Toggle */}
-            <div class={`main-toggle-card ${platform.enabled ? 'active' : ''}`}>
-              <div class="main-toggle-text">
-                <h3>Enable Blocking</h3>
-                <p>Master switch for this platform</p>
-              </div>
-              <Toggle
-                label=""
-                checked={platform.enabled}
-                onChange={(v) => updateSetting(['platforms', activeTab, 'enabled'], v)}
-              />
-            </div>
+            {activeTab === 'settings' ? (
+              /* Settings Content */
+              <>
+                {/* Settings Search Bar */}
+                <div class="settings-search">
+                  <Search size={16} class="settings-search-icon" />
+                  <input
+                    type="text"
+                    placeholder="Search settings..."
+                    class="settings-search-input"
+                    value={settingsSearch}
+                    onInput={(e) => setSettingsSearch(e.target.value)}
+                  />
+                  {settingsSearch && (
+                    <button
+                      class="settings-search-clear"
+                      onClick={() => setSettingsSearch('')}
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
 
-            {renderOptions()}
+                {/* Appearance Section - Collapsible */}
+                {filterSettings('Appearance') && (
+                  <div class={`settings-section ${settingsSearch ? '' : ''}`}>
+                    <button
+                      class="settings-section-header"
+                      onClick={(e) => {
+                        if (!settingsSearch) {
+                          const section = e.currentTarget.parentElement;
+                          section.classList.toggle('collapsed');
+                        }
+                      }}
+                    >
+                      <span>Appearance</span>
+                      {!settingsSearch && <ChevronDown size={18} class="settings-section-chevron" />}
+                    </button>
+                    <div class="settings-section-content">
+                      {filterSettingItem('Theme', ['dark', 'light', 'mode', 'color']) && (
+                        <div class="settings-row">
+                          <span class="settings-row-label">Theme</span>
+                          <div class="theme-select-wrapper">
+                            <select
+                              class="theme-select"
+                              value={theme}
+                              onChange={(e) => toggleTheme(e.target.value)}
+                            >
+                              <option value="light">Light</option>
+                              <option value="dark">Dark</option>
+                              <option value="system">System</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* No results message */}
+                {settingsSearch && !filterSettings('Appearance') && (
+                  <div class="settings-no-results">
+                    <p>No settings found for "{settingsSearch}"</p>
+                  </div>
+                )}
+              </>
+            ) : (
+              /* Platform Content */
+              <>
+                {/* Main Enable Toggle */}
+                <div class={`main-toggle-card ${platform.enabled ? 'active' : ''}`}>
+                  <div class="main-toggle-text">
+                    <h3>Enable Blocking</h3>
+                    <p>Master switch for this platform</p>
+                  </div>
+                  <Toggle
+                    label=""
+                    checked={platform.enabled}
+                    onChange={(v) => updateSetting(['platforms', activeTab, 'enabled'], v)}
+                  />
+                </div>
+
+                {renderOptions()}
+              </>
+            )}
           </main>
         </div>
       </div>
