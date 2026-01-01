@@ -425,10 +425,6 @@ export function App() {
       {/* Main Container - Glassmorphic & Rounded */}
       <div class="main-container">
 
-        {/* Background Gradients */}
-        <div class="gradient-blob-1"></div>
-        <div class="gradient-blob-2"></div>
-
         {/* Sidebar */}
         <div class="sidebar-wrapper">
           <Sidebar active={activeTab} onSelect={handleTabChange} statusMap={statusMap} theme={theme} />
