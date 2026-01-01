@@ -30,8 +30,6 @@
   --text-muted: var(--zinc-500);
   --border-color: rgba(255, 255, 255, 0.05);
   --border-hover: rgba(255, 255, 255, 0.1);
-  --gradient-blob-1: rgba(59, 130, 246, 0.1);
-  --gradient-blob-2: rgba(14, 165, 233, 0.1);
 }
 
 /* Light mode theme */
@@ -49,8 +47,6 @@
   --text-muted: #94a3b8;
   --border-color: rgba(0, 0, 0, 0.08);
   --border-hover: rgba(0, 0, 0, 0.15);
-  --gradient-blob-1: rgba(59, 130, 246, 0.08);
-  --gradient-blob-2: rgba(14, 165, 233, 0.08);
 }
 
 * {
@@ -100,34 +96,6 @@ button {
   display: flex;
   position: relative;
   transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.gradient-blob-1 {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 600px;
-  height: 600px;
-  background-color: var(--gradient-blob-1);
-  border-radius: 9999px;
-  filter: blur(120px);
-  pointer-events: none;
-  transform: translate(50%, -50%);
-  transition: background-color 0.3s ease;
-}
-
-.gradient-blob-2 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 400px;
-  height: 400px;
-  background-color: var(--gradient-blob-2);
-  border-radius: 9999px;
-  filter: blur(100px);
-  pointer-events: none;
-  transform: translate(-25%, 50%);
-  transition: background-color 0.3s ease;
 }
 
 .sidebar-wrapper {
